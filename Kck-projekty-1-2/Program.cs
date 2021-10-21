@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kck_projekty_1_2.Views;
+using System;
 
 namespace Kck_projekty_1_2
 {
@@ -6,7 +7,7 @@ namespace Kck_projekty_1_2
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            (new ConsoleView()).Start();
         }
     }
 }
