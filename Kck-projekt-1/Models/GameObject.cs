@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Kck_projekty_1_2.Models
+namespace Kck_projekt_1.Models
 {
     class GameObject
     {
@@ -15,15 +15,18 @@ namespace Kck_projekty_1_2.Models
         }
         public int CurrentHealth { get; private set; }
         public int MaxHealth { get; private set; } = 1;
-        public Coords Coords { get; private set; }
-        public GameObject(Coords coords, int Health = 1)
+        public Vector2Int Position { get; private set; }
+        public Hitbox Hitbox { get; private set; } = new Hitbox();
+
+        public GameObject(Vector2Int coords, int Health = 1)
         {
-            this.Coords = coords;
+            Position = coords;
             CurrentHealth = MaxHealth = Health;
         }
-        public void MoveTo(Coords coords)
+        public void MoveTo(Vector2Int coords)
         {
-            this.Coords = coords;
+            if (coords.IsCorrectCoords())
+                this.Position = coords;
         }
         public void Hit(int damage = 1)
         {

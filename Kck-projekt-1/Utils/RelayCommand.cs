@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
 
-namespace Kck_projekty_1_2.Utils
+namespace Kck_projekt_1.Utils
 {
     public class RelayCommand : ICommand
     {

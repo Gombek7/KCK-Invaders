@@ -4,9 +4,39 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Kck_projekt_2.Views"
+        xmlns:ViewModels="clr-namespace:Kck_projekt_1.ViewModels"
+        xmlns:Converters="clr-namespace:Kck_projekt_2.Converters"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="415" Width="696">
+    
+    <Window.DataContext>
+        <ViewModels:ViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <Converters:XPositionConverter x:Key="xPositionConverter"/>
+        <Converters:YPositionConverter x:Key="yPositionConverter"/>
+    </Window.Resources>
+    <Window.InputBindings >
+        <KeyBinding Key="Right" Command="{Binding MoveRightCommand}"/>
+        <KeyBinding Key="Left" Command="{Binding MoveLeftCommand}" />
+    </Window.InputBindings>
     <Grid>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Canvas Grid.Column="0" Grid.Row="0" Background="#FF8B8B8B" Width="500" Height="250">
+            <Label Content="{Binding PlayerInfo.Position}" Background="Green" Canvas.Left="{Binding PlayerInfo.Position, Converter={StaticResource xPositionConverter}}" Canvas.Top="{Binding PlayerInfo.Position, Converter={StaticResource yPositionConverter}}"/>
+        </Canvas>
+        
+        <Label x:Name="ScoreLabel" Content="Punkty: " HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="1" Grid.Row="0"/>
+        <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Score}" HorizontalAlignment="Right"/>
+        <Button Command="{Binding NextFrameCommand}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,5,5">Następna klatka</Button>
+        <Button Command="{Binding MoveLeftCommand}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5,5,5,5">W lewo</Button>
+        <Button Command="{Binding MoveRightCommand}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5,5,5,5">W prawo</Button>
     </Grid>
 </Window>

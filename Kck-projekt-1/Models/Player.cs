@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Kck_projekty_1_2.Models
+namespace Kck_projekt_1.Models
 {
     class Player : GameObject
     {
-        public Player(Coords coords, int Health = 1) : base(coords, Health)
+        public Player(Vector2Int coords, int Health = 1) : base(coords, Health)
         {
+
         }
     }
 }

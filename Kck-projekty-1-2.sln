@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kck-projekt-1", "Kck-projekty-1-2\Kck-projekt-1.csproj", "{D178368F-4325-4609-838D-663111A90349}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kck-projekt-1", "Kck-projekt-1\Kck-projekt-1.csproj", "{D178368F-4325-4609-838D-663111A90349}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kck-projekt-2", "Kck-projekt-2\Kck-projekt-2.csproj", "{9E4CE512-B690-41D2-B8BD-AE6578F56F87}"
 EndProject

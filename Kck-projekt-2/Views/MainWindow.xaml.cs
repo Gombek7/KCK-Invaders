@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kck_projekt_1.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,8 @@ namespace Kck_projekt_2.Views
         public MainWindow()
         {
             InitializeComponent();
+            //this.DataContext = new ViewModel();
         }
+        
     }
 }

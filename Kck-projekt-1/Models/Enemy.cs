@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Kck_projekty_1_2.Models
+namespace Kck_projekt_1.Models
 {
     abstract class Enemy
     {
-        
+
     }
 }

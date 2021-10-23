@@ -1,7 +1,7 @@
-﻿using Kck_projekty_1_2.Views;
+﻿using Kck_projekt_1.Views;
 using System;
 
-namespace Kck_projekty_1_2
+namespace Kck_projekt_1
 {
     class Program
     {
