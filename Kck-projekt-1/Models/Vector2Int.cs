@@ -56,6 +56,18 @@ namespace Kck_projekt_1.Models
         public bool IsCorrectCoords()
             => x >= 0 && x < GameConfig.Width && y >= 0 && y < GameConfig.Height;
 
+        public void CropToGameBorders()
+        {
+            if (x < 0)
+                x = 0;
+            else if (x >= GameConfig.Width)
+                x = GameConfig.Width;
+            if (y < 0)
+                y = 0;
+            else if (y >= GameConfig.Height)
+                y = GameConfig.Height;
+        }
+
         public override string ToString()
         {
             return $"({x},{y})";

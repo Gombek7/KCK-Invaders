@@ -14,13 +14,13 @@
     <Compile Include="..\Kck-projekt-1\Models\Hitbox.cs" Link="Models\Hitbox.cs" />
     <Compile Include="..\Kck-projekt-1\Models\Player.cs" Link="Models\Player.cs" />
     <Compile Include="..\Kck-projekt-1\Models\Vector2Int.cs" Link="Models\Vector2Int.cs" />
+    <Compile Include="..\Kck-projekt-1\Models\WeakEnemy.cs" Link="Models\WeakEnemy.cs" />
     <Compile Include="..\Kck-projekt-1\Utils\GameObjectInfo.cs" Link="Utils\GameObjectInfo.cs" />
     <Compile Include="..\Kck-projekt-1\Utils\RelayCommand.cs" Link="Utils\RelayCommand.cs" />
     <Compile Include="..\Kck-projekt-1\ViewModels\ViewModel.cs" Link="ViewModels\ViewModel.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
     <Folder Include="Utils\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>

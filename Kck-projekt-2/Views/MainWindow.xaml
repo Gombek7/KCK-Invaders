@@ -19,6 +19,7 @@
     <Window.InputBindings >
         <KeyBinding Key="Right" Command="{Binding MoveRightCommand}"/>
         <KeyBinding Key="Left" Command="{Binding MoveLeftCommand}" />
+        <KeyBinding Key="Space" Command="{Binding ShootCommand}" />
     </Window.InputBindings>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -29,11 +30,26 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Canvas Grid.Column="0" Grid.Row="0" Background="#FF8B8B8B" Width="500" Height="250">
-            <Label Content="{Binding PlayerInfo.Position}" Background="Green" Canvas.Left="{Binding PlayerInfo.Position, Converter={StaticResource xPositionConverter}}" Canvas.Top="{Binding PlayerInfo.Position, Converter={StaticResource yPositionConverter}}"/>
-        </Canvas>
-        
-        <Label x:Name="ScoreLabel" Content="Punkty: " HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="1" Grid.Row="0"/>
+        <ItemsControl ItemsSource="{Binding GameObjectInfos}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas Grid.Column="0" Grid.Row="0" Background="#FF8B8B8B" Width="500" Height="250" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="FrameworkElement">
+                    <Setter Property="Canvas.Left" Value="{Binding Position, Converter={StaticResource xPositionConverter}}"/>
+                    <Setter Property="Canvas.Top" Value="{Binding Position, Converter={StaticResource yPositionConverter}}"/>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Label Content="{Binding Position}" Background="Red"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+            <Label x:Name="ScoreLabel" Content="Punkty: " HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="1" Grid.Row="0"/>
         <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Score}" HorizontalAlignment="Right"/>
         <Button Command="{Binding NextFrameCommand}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,5,5">Następna klatka</Button>
         <Button Command="{Binding MoveLeftCommand}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5,5,5,5">W lewo</Button>

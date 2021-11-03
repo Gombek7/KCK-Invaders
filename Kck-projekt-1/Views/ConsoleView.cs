@@ -16,15 +16,26 @@ namespace Kck_projekt_1.Views
     class ConsoleView
     {
         private ViewModel viewModel;
+        //data from viewModel
+        //GameObjectInfo ;
+
+        //art
+        string playerArt;
         public ConsoleView()
         {
+            //Load art
+            playerArt = ConsoleUtils.LoadArt(@"C:\Programy\Projekty Visual Studio\Kck-projekty-1-2\Kck-projekt-1\Art\player.txt");
 
+            //Draw Basic UI
+            ConsoleUtils.DrawBorder(-2, -2, 2, 2);
+            ConsoleUtils.DrawBorder(-1, -1, GameConfig.Width, GameConfig.Height,ConsoleColor.Black, ConsoleColor.Cyan);
+            //ConsoleUtils.Fill(' ',0, 0, GameConfig.Width-1, GameConfig.Height-1);
         }
         public int Start()
         {
             viewModel = new ViewModel();
             viewModel.PropertyChanged += RefreshData;
-            // Todo: Usunąć bezpośrednią subskrypcje eventu
+            viewModel.GameObjectInfos.CollectionChanged += ObjectsChanged;
 
             string key = "none";
             while (true)
@@ -53,27 +64,49 @@ namespace Kck_projekt_1.Views
                 }
                 Thread.Sleep(1000 / ConsoleViewConfig.Fps);
                 viewModel.NextFrameCommand.Execute(null);
-                Console.WriteLine();
             }
             return 0;
         }
 
+        private void ObjectsChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
+                    foreach(GameObjectInfo objectInfo in e.NewItems)
+                    {
+                        DrawObject(objectInfo);
+                    }
+                    break;
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
+                    foreach (GameObjectInfo objectInfo in e.OldItems)
+                    {
+                        ClearObject(objectInfo);
+                    }
+                    break;
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Replace:
+                    foreach (GameObjectInfo objectInfo in e.OldItems)
+                    {
+                        ClearObject(objectInfo);
+                    }
+                    foreach (GameObjectInfo objectInfo in e.NewItems)
+                    {
+                        DrawObject(objectInfo);
+                    }
+                    break;
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Move:
+                    break;
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Reset:
+                    break;
+            }
+        }
+
         private void RefreshData(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            
-                
-            
-
             switch (e.PropertyName)
             {
                 case nameof(ViewModel.PlayerInfo):
-                    Vector2Int pos = viewModel.PlayerInfo.Position;
-                    Console.Clear();
-                    Console.SetCursorPosition(pos.x, pos.y);
-                    Console.BackgroundColor = ConsoleColor.White;
-                    Console.Write(" ");
-                    Console.BackgroundColor = ConsoleColor.Black;
-                    Console.WriteLine(pos);
+                    //updatePlayer();
                     break;
                 case nameof(ViewModel.Score):
                     //Console.WriteLine($"Nowe punkty: {viewModel.Score}");
@@ -81,6 +114,48 @@ namespace Kck_projekt_1.Views
                 default:
                     break;
             }      
+        }
+
+        private void updatePlayer(GameObjectInfo oldPlayerInfo, GameObjectInfo newPlayerInfo)
+        {
+            Vector2Int UL, RD;
+            if (oldPlayerInfo != null)
+            {
+                //clear last position
+                UL = oldPlayerInfo.Position + oldPlayerInfo.Hitbox.UpperLeftCorner;
+                UL.CropToGameBorders();
+                RD = oldPlayerInfo.Position + oldPlayerInfo.Hitbox.RightDownCorner;
+                RD.CropToGameBorders();
+                ConsoleUtils.Fill(' ', UL.x, UL.y, RD.x, RD.y);
+            }
+            //playerInfo = viewModel.PlayerInfo;
+
+            //draw player
+            UL = newPlayerInfo.Position + newPlayerInfo.Hitbox.UpperLeftCorner;
+            UL.CropToGameBorders();
+            //RD = playerInfo.Position + playerInfo.Hitbox.RightDownCorner;
+            //RD.CropToGameBorders();
+            //ConsoleUtils.Fill('P', UL.x, UL.y, RD.x, RD.y);
+            Console.SetCursorPosition(UL.x,UL.y);
+            Console.Write(playerArt);
+        }
+
+        private void DrawObject(GameObjectInfo objectInfo)
+        {
+            Vector2Int UL = objectInfo.Position + objectInfo.Hitbox.UpperLeftCorner;
+            //UL.CropToGameBorders();
+            Vector2Int RD = objectInfo.Position + objectInfo.Hitbox.RightDownCorner;
+            //RD.CropToGameBorders();
+            ConsoleUtils.DrawBorder(UL.x, UL.y, RD.x, RD.y, ConsoleColor.Black, ConsoleColor.Green);
+
+        }
+        private void ClearObject(GameObjectInfo objectInfo)
+        {
+            Vector2Int UL = objectInfo.Position + objectInfo.Hitbox.UpperLeftCorner;
+            //UL.CropToGameBorders();
+            Vector2Int RD = objectInfo.Position + objectInfo.Hitbox.RightDownCorner;
+            //RD.CropToGameBorders();
+            ConsoleUtils.Fill(' ', UL.x, UL.y, RD.x, RD.y);
         }
 
     }

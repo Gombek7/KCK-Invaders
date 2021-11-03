@@ -4,10 +4,11 @@ using System.Text;
 
 namespace Kck_projekt_1.Models
 {
-    abstract class Enemy : GameObject
+    class WeakEnemy : Enemy
     {
-        protected Enemy(Vector2Int coords, int Health = 1) : base(coords, Health)
+        public WeakEnemy(Vector2Int coords, int Health = 1) : base(coords, Health)
         {
+
         }
     }
 }
