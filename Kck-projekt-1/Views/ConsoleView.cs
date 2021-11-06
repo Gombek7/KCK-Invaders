@@ -27,9 +27,12 @@ namespace Kck_projekt_1.Views
             playerArt = ConsoleUtils.LoadArt(@"C:\Programy\Projekty Visual Studio\Kck-projekty-1-2\Kck-projekt-1\Art\player.txt");
 
             //Draw Basic UI
-            ConsoleUtils.DrawBorder(-2, -2, 2, 2);
+            //ConsoleUtils.DrawBorder(-2, -2, 2, 2);
             ConsoleUtils.DrawBorder(-1, -1, GameConfig.Width, GameConfig.Height,ConsoleColor.Black, ConsoleColor.Cyan);
             //ConsoleUtils.Fill(' ',0, 0, GameConfig.Width-1, GameConfig.Height-1);
+            Console.SetCursorPosition(0, 0);
+            ConsoleUtils.PrintBigNumber(1, 5);
+
         }
         public int Start()
         {

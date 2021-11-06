@@ -132,5 +132,59 @@ namespace Kck_projekt_1.Utils
 
             return output;
         }
+
+        public static void PrintBigDigit(int d)
+        {
+            switch (d)
+            {
+                case 0:
+                    Console.Write("\u001b[s┌─┐\u001b[u\u001b[1B│ │\u001b[u\u001b[2B└─┘");
+                    break;
+                case 1:
+                    Console.Write("\u001b[s ┬\u001b[u\u001b[1B │\u001b[u\u001b[2B ┴");
+                    break;
+                case 2:
+                    Console.Write("\u001b[s┌─┐\u001b[u\u001b[1B┌─┘\u001b[u\u001b[2B└─┘");
+                    break;
+                case 3:
+                    Console.Write("\u001b[s┌─┐\u001b[u\u001b[1B ─┤\u001b[u\u001b[2B└─┘");
+                    break;
+                case 4:
+                    Console.Write("\u001b[s┬ ┬\u001b[u\u001b[1B└─┤\u001b[u\u001b[2B  ┴");
+                    break;
+                case 5:
+                    Console.Write("\u001b[s┌─┐\u001b[u\u001b[1B└─┐\u001b[u\u001b[2B└─┘");
+                    break;
+                case 6:
+                    Console.Write("\u001b[s┌─┐\u001b[u\u001b[1B├─┐\u001b[u\u001b[2B└─┘");
+                    break;
+                case 7:
+                    Console.Write("\u001b[s┌─┐\u001b[u\u001b[1B  ┼\u001b[u\u001b[2B  ┴");
+                    break;
+                case 8:
+                    Console.Write("\u001b[s┌─┐\u001b[u\u001b[1B├─┤\u001b[u\u001b[2B└─┘");
+                    break;
+                case 9:
+                    Console.Write("\u001b[s┌─┐\u001b[u\u001b[1B└─┤\u001b[u\u001b[2B└─┘");
+                    break;
+            }
+        }
+        public static void PrintBigNumber(int n, int digitsCount)
+        {
+            int[] digits = new int[digitsCount];
+            for (int i = 0; i < digitsCount; i++)
+            {
+                digits[i] = n % 10;
+                n /= 10;
+            }
+            int x = Console.CursorLeft;
+            int y = Console.CursorTop;
+            for (int i = 0; i < digitsCount; i++)
+            {
+                Console.SetCursorPosition(x + i * 3, y);
+                PrintBigDigit(digits[digitsCount - i - 1]);
+            }
+
+        }
     }
 }
