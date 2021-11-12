@@ -21,17 +21,22 @@ namespace Kck_projekt_1.Views
 
         //art
         string playerArt;
+        string weakEnemyArt;
         public ConsoleView()
         {
             //Load art
             playerArt = ConsoleUtils.LoadArt(@"C:\Programy\Projekty Visual Studio\Kck-projekty-1-2\Kck-projekt-1\Art\player.txt");
+            weakEnemyArt = ConsoleUtils.LoadArt(@"C:\Programy\Projekty Visual Studio\Kck-projekty-1-2\Kck-projekt-1\Art\weakEnemy.txt");
+
+            //Configure Console
+            Console.Title = "KCK Invaders by Jarosław Dakowicz";
+            Console.CursorVisible = false;
+            
 
             //Draw Basic UI
             //ConsoleUtils.DrawBorder(-2, -2, 2, 2);
             ConsoleUtils.DrawBorder(-1, -1, GameConfig.Width, GameConfig.Height,ConsoleColor.Black, ConsoleColor.Cyan);
             //ConsoleUtils.Fill(' ',0, 0, GameConfig.Width-1, GameConfig.Height-1);
-            Console.SetCursorPosition(0, 0);
-            ConsoleUtils.PrintBigNumber(1, 5);
 
         }
         public int Start()
@@ -112,13 +117,14 @@ namespace Kck_projekt_1.Views
                     //updatePlayer();
                     break;
                 case nameof(ViewModel.Score):
-                    //Console.WriteLine($"Nowe punkty: {viewModel.Score}");
+                    ConsoleUtils.Fill(' ', GameConfig.Width + 1, 0, GameConfig.Width + 16, 3);
+                    Console.SetCursorPosition(GameConfig.Width + 1, 0);
+                    ConsoleUtils.PrintBigNumber(viewModel.Score, 5);
                     break;
                 default:
                     break;
             }      
         }
-
         private void updatePlayer(GameObjectInfo oldPlayerInfo, GameObjectInfo newPlayerInfo)
         {
             Vector2Int UL, RD;
@@ -146,10 +152,33 @@ namespace Kck_projekt_1.Views
         private void DrawObject(GameObjectInfo objectInfo)
         {
             Vector2Int UL = objectInfo.Position + objectInfo.Hitbox.UpperLeftCorner;
-            //UL.CropToGameBorders();
-            Vector2Int RD = objectInfo.Position + objectInfo.Hitbox.RightDownCorner;
-            //RD.CropToGameBorders();
-            ConsoleUtils.DrawBorder(UL.x, UL.y, RD.x, RD.y, ConsoleColor.Black, ConsoleColor.Green);
+            Console.SetCursorPosition(UL.x, UL.y);
+            switch (objectInfo.GameObjectType)
+            {
+                case GameObjectInfo.GameObjectTypeEnum.Player:
+                    Console.Write(playerArt);
+                    break;
+                case GameObjectInfo.GameObjectTypeEnum.WeakEnemy:
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write(weakEnemyArt);
+                    Console.ForegroundColor = ConsoleColor.White;
+                    break;
+                case GameObjectInfo.GameObjectTypeEnum.StrongEnemy:
+                    break;
+                case GameObjectInfo.GameObjectTypeEnum.Obstacle:
+                    break;
+                case GameObjectInfo.GameObjectTypeEnum.PlayerProjectile:
+                    break;
+                case GameObjectInfo.GameObjectTypeEnum.EnemyProjectile:
+                    break;
+            }
+
+            //---------Draw Hitbox
+            //Vector2Int UL = objectInfo.Position + objectInfo.Hitbox.UpperLeftCorner;
+            ////UL.CropToGameBorders();
+            //Vector2Int RD = objectInfo.Position + objectInfo.Hitbox.RightDownCorner;
+            ////RD.CropToGameBorders();
+            //ConsoleUtils.DrawBorder(UL.x, UL.y, RD.x, RD.y, ConsoleColor.Black, ConsoleColor.Green);
 
         }
         private void ClearObject(GameObjectInfo objectInfo)

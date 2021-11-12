@@ -11,6 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Art\weakEnemy.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Art\player.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

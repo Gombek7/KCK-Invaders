@@ -70,54 +70,31 @@ namespace Kck_projekt_1.ViewModels
 
             //game init
             GameObjectInfos = new ObservableCollection<GameObjectInfo>();
-            player = new Player(new Vector2Int(0, 20), 3);
-            GameObjectInfos.Add(new GameObjectInfo(player));
+            player = new Player(new Vector2Int(GameConfig.Width/2, 20), 3);
+            GameObjectInfos.Add(new GameObjectInfo(player) { GameObjectType = GameObjectInfo.GameObjectTypeEnum.Player});
             enemy = new WeakEnemy(new Vector2Int(5, 5));
-            GameObjectInfos.Add(new GameObjectInfo(enemy));
+            GameObjectInfos.Add(new GameObjectInfo(enemy) {GameObjectType = GameObjectInfo.GameObjectTypeEnum.WeakEnemy});
 
         }
 
         void MoveRight()
         {
-            movingRight = true;
-            if (movingLeft)
-                movingLeft = false;
-            NextFrame();
+            player.MovingRight = true;
         }
         void MoveLeft()
         {
-            movingLeft = true;
-            if (movingRight)
-                movingRight = false;
-            NextFrame();
+            player.MovingLeft = true;
         }
         void Shoot()
         {
-            enemy.MoveTo(GameObjectInfos[0].Position + new Vector2Int(1, 0));
-            GameObjectInfos[1] = new GameObjectInfo(enemy);
+            Score++;
         }
         void NextFrame()
         {
-            if (movingRight)
-            {
-                player.MoveTo(player.Position + new Vector2Int(1, 0));
-                GameObjectInfos[0] = new GameObjectInfo(player);
-                //PlayerInfo = new GameObjectInfo(player);
-                //PlayerInfo.Position = new Vector2Int(player.Position);
-                OnPropertyChange(nameof(PlayerInfo));
-                movingRight = false;
-                Score++;
-            }
-            else if (movingLeft)
-            {
-                player.MoveTo(player.Position + new Vector2Int(-1, 0));
-                GameObjectInfos[0] = new GameObjectInfo(player);
-                //PlayerInfo = new GameObjectInfo(player);
-                //PlayerInfo.Position = new Vector2Int(player.Position);
-                OnPropertyChange(nameof(PlayerInfo));
-                movingLeft = false;
-                Score++;
-            }
+            player.NextFrame();
+            GameObjectInfos[0] = new GameObjectInfo(player) { GameObjectType = GameObjectInfo.GameObjectTypeEnum.Player };
+            enemy.NextFrame();
+            GameObjectInfos[1] = new GameObjectInfo(enemy) { GameObjectType = GameObjectInfo.GameObjectTypeEnum.WeakEnemy };
         }
     }
 }

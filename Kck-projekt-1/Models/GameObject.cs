@@ -16,7 +16,7 @@ namespace Kck_projekt_1.Models
         public int CurrentHealth { get; private set; }
         public int MaxHealth { get; private set; } = 1;
         public Vector2Int Position { get; private set; }
-        public Hitbox Hitbox { get; private set; } = new Hitbox();
+        public Hitbox Hitbox { get; protected set; } = new Hitbox();
 
         public GameObject(Vector2Int coords, int Health = 1)
         {
@@ -25,7 +25,7 @@ namespace Kck_projekt_1.Models
         }
         public void MoveTo(Vector2Int coords)
         {
-            if (coords.IsCorrectCoords())
+            if ((coords + Hitbox.UpperLeftCorner).IsCorrectCoords() && (coords+Hitbox.RightDownCorner).IsCorrectCoords())
                 this.Position = coords;
         }
         public void Hit(int damage = 1)
@@ -36,6 +36,10 @@ namespace Kck_projekt_1.Models
         {
             if (CurrentHealth < MaxHealth)
                 CurrentHealth += heal;
+        }
+        public virtual void NextFrame()
+        {
+
         }
     }
 }

@@ -8,6 +8,17 @@ namespace Kck_projekt_1.Utils
 {
     class GameObjectInfo : INotifyPropertyChanged
     {
+        public enum GameObjectTypeEnum
+        {
+            Player,
+            WeakEnemy,
+            StrongEnemy,
+            Obstacle,
+            PlayerProjectile,
+            EnemyProjectile
+        }
+        public GameObjectTypeEnum GameObjectType = GameObjectTypeEnum.WeakEnemy;
+
         private Vector2Int position;
         public Vector2Int Position {
             get => position;
