@@ -4,27 +4,28 @@ using System.Text;
 
 namespace Kck_projekt_1.Models
 {
-    abstract class Enemy : GameObject
+    class Projectile : GameObject
     {
-        protected Vector2Int moveVector = new Vector2Int(1,0);
-        protected int moveFrameDelay = 5;
-        protected int currentMoveFrameDelay = 5;
-        protected Enemy(Vector2Int coords, int Health = 1) : base(coords, Health)
+        protected Vector2Int direction;
+        protected int moveFrameDelay = 2;
+        protected int currentMoveFrameDelay = 2;
+        public Projectile(Vector2Int coords) : base(coords, 1)
         {
+
         }
         public override void NextFrame()
         {
             base.NextFrame();
-            if(--currentMoveFrameDelay < 0)
+            if (--currentMoveFrameDelay < 0)
             {
                 currentMoveFrameDelay = moveFrameDelay;
-                Vector2Int newPosition = Position + moveVector;
+                Vector2Int newPosition = Position + direction;
                 if ((newPosition + Hitbox.UpperLeftCorner).IsCorrectCoords() && (newPosition + Hitbox.RightDownCorner).IsCorrectCoords())
                 {
                     MoveTo(newPosition);
                 }
                 else
-                    moveVector = -moveVector;
+                    Hit(1);
             }
         }
     }

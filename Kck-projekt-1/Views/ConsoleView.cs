@@ -22,11 +22,13 @@ namespace Kck_projekt_1.Views
         //art
         string playerArt;
         string weakEnemyArt;
+        string playerProjectileArt;
         public ConsoleView()
         {
             //Load art
             playerArt = ConsoleUtils.LoadArt(@"C:\Programy\Projekty Visual Studio\Kck-projekty-1-2\Kck-projekt-1\Art\player.txt");
             weakEnemyArt = ConsoleUtils.LoadArt(@"C:\Programy\Projekty Visual Studio\Kck-projekty-1-2\Kck-projekt-1\Art\weakEnemy.txt");
+            playerProjectileArt = ConsoleUtils.LoadArt(@"C:\Programy\Projekty Visual Studio\Kck-projekty-1-2\Kck-projekt-1\Art\playerProjectile.txt");
 
             //Configure Console
             Console.Title = "KCK Invaders by Jarosław Dakowicz";
@@ -168,6 +170,9 @@ namespace Kck_projekt_1.Views
                 case GameObjectInfo.GameObjectTypeEnum.Obstacle:
                     break;
                 case GameObjectInfo.GameObjectTypeEnum.PlayerProjectile:
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.Write(playerProjectileArt);
+                    Console.ForegroundColor = ConsoleColor.White;
                     break;
                 case GameObjectInfo.GameObjectTypeEnum.EnemyProjectile:
                     break;
