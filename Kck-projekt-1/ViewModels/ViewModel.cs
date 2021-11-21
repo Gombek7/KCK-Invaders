@@ -11,11 +11,22 @@ namespace Kck_projekt_1.ViewModels
 {
     class ViewModel : INotifyPropertyChanged
     {
+        private static ViewModel instance = null;
+        public static ViewModel Instance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = new ViewModel();
+                return instance;
+            }
+        }
+        private Random random = new Random();
         private int score = 0;
         public int Score
         {
             get => score;
-            private set
+            set
             {
                 if (score != value)
                 {
@@ -45,7 +56,8 @@ namespace Kck_projekt_1.ViewModels
         private Player player;
         private WeakEnemy enemy;
 
-        private PlayerProjectile playerProjectile;
+        //private PlayerProjectile playerProjectile;
+        private EnemyProjectile enemyProjectile;
 
         public ICommand MoveRightCommand { get; }
         public ICommand MoveLeftCommand { get; }
@@ -71,11 +83,9 @@ namespace Kck_projekt_1.ViewModels
             //game init
             GameObjectInfos = new ObservableCollection<GameObjectInfo>();
             player = new Player(new Vector2Int(GameConfig.Width/2, 20), 3);
-            GameObjectInfos.Add(new GameObjectInfo(player) { GameObjectType = GameObjectInfo.GameObjectTypeEnum.Player});
             enemy = new WeakEnemy(new Vector2Int(5, 5));
-            GameObjectInfos.Add(new GameObjectInfo(enemy) {GameObjectType = GameObjectInfo.GameObjectTypeEnum.WeakEnemy});
-            playerProjectile = new PlayerProjectile(player.Position);
-            GameObjectInfos.Add(new GameObjectInfo(playerProjectile) { GameObjectType = GameObjectInfo.GameObjectTypeEnum.PlayerProjectile });
+            player.Projectile.AddTarget(enemy);
+            enemy.Projectile.AddTarget(player);
         }
 
         void MoveRight()
@@ -88,20 +98,13 @@ namespace Kck_projekt_1.ViewModels
         }
         void Shoot()
         {
-            playerProjectile = new PlayerProjectile(player.Position);
-            Score++;
+            player.Shoot();        
         }
         void NextFrame()
         {
             player.NextFrame();
-            GameObjectInfos[0] = new GameObjectInfo(player) { GameObjectType = GameObjectInfo.GameObjectTypeEnum.Player };
             enemy.NextFrame();
-            GameObjectInfos[1] = new GameObjectInfo(enemy) { GameObjectType = GameObjectInfo.GameObjectTypeEnum.WeakEnemy };
-            if (playerProjectile != null)
-            {
-                playerProjectile?.NextFrame();
-                GameObjectInfos[2] = new GameObjectInfo(playerProjectile) { GameObjectType = GameObjectInfo.GameObjectTypeEnum.PlayerProjectile };
-            }
+
         }
     }
 }

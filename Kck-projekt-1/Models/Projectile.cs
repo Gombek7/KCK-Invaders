@@ -4,18 +4,20 @@ using System.Text;
 
 namespace Kck_projekt_1.Models
 {
-    class Projectile : GameObject
+    abstract class Projectile : GameObject
     {
         protected Vector2Int direction;
         protected int moveFrameDelay = 2;
         protected int currentMoveFrameDelay = 2;
         public Projectile(Vector2Int coords) : base(coords, 1)
         {
-
+            targets = new List<GameObject>();
+            CurrentHealth = 0;
         }
         public override void NextFrame()
         {
-            base.NextFrame();
+            if (IsDestroyed)
+                return;
             if (--currentMoveFrameDelay < 0)
             {
                 currentMoveFrameDelay = moveFrameDelay;
@@ -23,10 +25,29 @@ namespace Kck_projekt_1.Models
                 if ((newPosition + Hitbox.UpperLeftCorner).IsCorrectCoords() && (newPosition + Hitbox.RightDownCorner).IsCorrectCoords())
                 {
                     MoveTo(newPosition);
+                    foreach(GameObject target in targets)
+                        if (!target.IsDestroyed && Collides(target))
+                        {
+                            Hit(1);
+                            target.Hit(1);
+                        }
                 }
                 else
                     Hit(1);
+                UpdateInfo();
             }
+        }
+
+        private List<GameObject> targets;
+
+        public void AddTarget(GameObject gameObject)
+        {
+            targets.Add(gameObject);
+        }
+
+        public void RemoveTarget(GameObject gameObject)
+        {
+            targets.Remove(gameObject);
         }
     }
 }

@@ -11,13 +11,14 @@ namespace Kck_projekt_1.Utils
         public enum GameObjectTypeEnum
         {
             Player,
-            WeakEnemy,
-            StrongEnemy,
+            EnemyTierI,
+            EnemyTierII,
+            EnemyTierIII,
             Obstacle,
             PlayerProjectile,
             EnemyProjectile
         }
-        public GameObjectTypeEnum GameObjectType = GameObjectTypeEnum.WeakEnemy;
+        public GameObjectTypeEnum GameObjectType = GameObjectTypeEnum.EnemyTierI;
 
         private Vector2Int position;
         public Vector2Int Position {

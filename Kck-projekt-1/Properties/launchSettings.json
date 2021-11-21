@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Kck-projekt-1": {
+      "commandName": "Project",
+      "nativeDebugging": false
+    },
+    "WSL": {
+      "commandName": "WSL2",
+      "distributionName": ""
+    }
+  }
+}

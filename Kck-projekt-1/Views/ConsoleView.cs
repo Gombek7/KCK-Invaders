@@ -23,12 +23,14 @@ namespace Kck_projekt_1.Views
         string playerArt;
         string weakEnemyArt;
         string playerProjectileArt;
+        string enemyProjectileArt;
         public ConsoleView()
         {
             //Load art
             playerArt = ConsoleUtils.LoadArt(@"C:\Programy\Projekty Visual Studio\Kck-projekty-1-2\Kck-projekt-1\Art\player.txt");
             weakEnemyArt = ConsoleUtils.LoadArt(@"C:\Programy\Projekty Visual Studio\Kck-projekty-1-2\Kck-projekt-1\Art\weakEnemy.txt");
             playerProjectileArt = ConsoleUtils.LoadArt(@"C:\Programy\Projekty Visual Studio\Kck-projekty-1-2\Kck-projekt-1\Art\playerProjectile.txt");
+            enemyProjectileArt = ConsoleUtils.LoadArt(@"C:\Programy\Projekty Visual Studio\Kck-projekty-1-2\Kck-projekt-1\Art\enemyProjectile.txt");
 
             //Configure Console
             Console.Title = "KCK Invaders by Jarosław Dakowicz";
@@ -43,7 +45,7 @@ namespace Kck_projekt_1.Views
         }
         public int Start()
         {
-            viewModel = new ViewModel();
+            viewModel = ViewModel.Instance;
             viewModel.PropertyChanged += RefreshData;
             viewModel.GameObjectInfos.CollectionChanged += ObjectsChanged;
 
@@ -153,6 +155,8 @@ namespace Kck_projekt_1.Views
 
         private void DrawObject(GameObjectInfo objectInfo)
         {
+            if (objectInfo.HPPercentage <= 0)
+                return;
             Vector2Int UL = objectInfo.Position + objectInfo.Hitbox.UpperLeftCorner;
             Console.SetCursorPosition(UL.x, UL.y);
             switch (objectInfo.GameObjectType)
@@ -160,12 +164,14 @@ namespace Kck_projekt_1.Views
                 case GameObjectInfo.GameObjectTypeEnum.Player:
                     Console.Write(playerArt);
                     break;
-                case GameObjectInfo.GameObjectTypeEnum.WeakEnemy:
+                case GameObjectInfo.GameObjectTypeEnum.EnemyTierI:
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.Write(weakEnemyArt);
                     Console.ForegroundColor = ConsoleColor.White;
                     break;
-                case GameObjectInfo.GameObjectTypeEnum.StrongEnemy:
+                case GameObjectInfo.GameObjectTypeEnum.EnemyTierII:
+                    break;
+                case GameObjectInfo.GameObjectTypeEnum.EnemyTierIII:
                     break;
                 case GameObjectInfo.GameObjectTypeEnum.Obstacle:
                     break;
@@ -175,6 +181,9 @@ namespace Kck_projekt_1.Views
                     Console.ForegroundColor = ConsoleColor.White;
                     break;
                 case GameObjectInfo.GameObjectTypeEnum.EnemyProjectile:
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write(enemyProjectileArt);
+                    Console.ForegroundColor = ConsoleColor.White;
                     break;
             }
 
