@@ -8,7 +8,7 @@ namespace Kck_projekt_1.Models
     abstract class GameObject
     {
         private static int idCounter = 0;
-        private int id = idCounter++;
+        private readonly int id = idCounter++;
         public int Id { get => id; }
 
         public bool IsDestroyed

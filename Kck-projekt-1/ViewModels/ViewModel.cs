@@ -69,7 +69,7 @@ namespace Kck_projekt_1.ViewModels
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-        public ViewModel()
+        private ViewModel()
         {
             //commands config
             MoveRightCommand = new RelayCommand(MoveRight);
@@ -81,12 +81,24 @@ namespace Kck_projekt_1.ViewModels
             GameObjectInfos = new ObservableCollection<GameObjectInfo>();
             player = new Player(new Vector2Int(GameConfig.Width/2, 20), 3);
 
-            enemies = new Enemy[5];
+            enemies = new Enemy[15];
             for (int i = 0; i < 5; i++)
             {
-                enemies[i] = new WeakEnemy(new Vector2Int(2 + i*5, 5));
+                enemies[i] = new EnemyTierI(new Vector2Int(2 + i * 5, 2));
                 enemies[i].Projectile.AddTarget(player);
                 player.Projectile.AddTarget(enemies[i]);
+            }
+            for (int i = 0; i < 5; i++)
+            {
+                enemies[i + 5] = new EnemyTierI(new Vector2Int(2 + i * 5, 5));
+                enemies[i + 5].Projectile.AddTarget(player);
+                player.Projectile.AddTarget(enemies[i + 5]);
+            }
+            for (int i = 0; i < 5; i++)
+            {
+                enemies[i + 10] = new EnemyTierI(new Vector2Int(2 + i * 5, 8));
+                enemies[i + 10].Projectile.AddTarget(player);
+                player.Projectile.AddTarget(enemies[i + 10]);
             }
         }
 
@@ -105,8 +117,11 @@ namespace Kck_projekt_1.ViewModels
         void NextFrame()
         {
             player.NextFrame();
+            foreach (Enemy enemy in enemies)
+                enemy.CheckBorderCollision();
             foreach(Enemy enemy in enemies)
                 enemy.NextFrame();
+            Enemy.borderCollision = false;
         }
     }
 }

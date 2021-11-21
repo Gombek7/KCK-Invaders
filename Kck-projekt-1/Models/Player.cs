@@ -61,7 +61,7 @@ namespace Kck_projekt_1.Models
         public override void UpdateInfo()
         {
             GameObjectInfo info = new GameObjectInfo(this) { GameObjectType = GameObjectInfo.GameObjectTypeEnum.Player };
-            if (Id >= ViewModel.Instance.GameObjectInfos.Count)
+            if (Id == ViewModel.Instance.GameObjectInfos.Count)
                 ViewModel.Instance.GameObjectInfos.Add(info);
             else
                 ViewModel.Instance.GameObjectInfos[Id] = info;

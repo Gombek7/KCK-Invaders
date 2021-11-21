@@ -11,9 +11,9 @@ namespace Kck_projekt_1.Models
         protected Vector2Int moveVector = new Vector2Int(1,0);
         protected int moveFrameDelay = 8;
         protected int currentMoveFrameDelay = 8;
-        private bool changingDirection = false;
-        public static event Action SomeoneTouchedBorder;
-        private float shotChance = 0.04f;
+        public static bool borderCollision = false;
+        private float shotChance = 0.01f;
+        protected int scoreValue = 5;
         public float ShotChance
         {
             get => shotChance;
@@ -34,7 +34,6 @@ namespace Kck_projekt_1.Models
         protected Enemy(Vector2Int coords, int Health = 1) : base(coords, Health)
         {
             Projectile = new EnemyProjectile(Position);
-            SomeoneTouchedBorder += onTouchedBorder;
         }
 
         public override void NextFrame()
@@ -43,34 +42,21 @@ namespace Kck_projekt_1.Models
             {
                 if (--currentMoveFrameDelay < 0)
                 {
-                    if (changingDirection)
+                    if (borderCollision)
                     {
                         MoveTo(Position + new Vector2Int(0, 1));
                         moveVector = -moveVector;
-                        changingDirection = false;
                     }
                     else
                     {
-                        currentMoveFrameDelay = moveFrameDelay;
+                        currentMoveFrameDelay += moveFrameDelay;
                         Vector2Int newPosition = Position + moveVector;
-                        if ((newPosition + Hitbox.UpperLeftCorner).IsCorrectCoords() && (newPosition + Hitbox.RightDownCorner).IsCorrectCoords())
-                        {
-                            MoveTo(newPosition);
-                        }
-                        else
-                        {
-                            SomeoneTouchedBorder();
-                            //MoveTo(Position + new Vector2Int(0, 1));
-                            //moveVector = -moveVector;
-                            //changingDirection = false;
-                        }
-                            
+                        MoveTo(newPosition);
+                        if ((float)random.NextDouble() <= ShotChance && Projectile.IsDestroyed)
+                            Projectile.Reincarnate(Position);
                     }
                     UpdateInfo();
                 }
-
-                if ((float)random.NextDouble() <= ShotChance && Projectile.IsDestroyed)
-                    Projectile.Reincarnate(Position);
             }
             Projectile.NextFrame();
         }
@@ -83,11 +69,15 @@ namespace Kck_projekt_1.Models
         {
             base.Hit(damage);
             if (IsDestroyed)
-                ViewModel.Instance.Score++;
+                ViewModel.Instance.Score += scoreValue;
         }
-        private void onTouchedBorder()
+        public bool CheckBorderCollision()
         {
-            changingDirection = true;
+            Vector2Int newPosition = Position + moveVector;
+            bool thisEnemyCollision = !(newPosition + Hitbox.UpperLeftCorner).IsCorrectCoords() || !(newPosition + Hitbox.RightDownCorner).IsCorrectCoords();
+            if (thisEnemyCollision)
+                borderCollision = true;
+            return thisEnemyCollision;
         }
     }
 }

@@ -21,14 +21,14 @@ namespace Kck_projekt_1.Views
 
         //art
         Art playerArt;
-        Art weakEnemyArt;
+        Art enemyTierIArt;
         Art playerProjectileArt;
         Art enemyProjectileArt;
         public ConsoleView()
         {
             //Load art
             playerArt = new Art(@"Art\player.txt");
-            weakEnemyArt = new Art(@"Art\weakEnemy.txt")
+            enemyTierIArt = new Art(@"Art\enemyTierI.txt")
             {
                 Color = ConsoleColor.Green,
                 NextFrameDelay = 1
@@ -175,7 +175,7 @@ namespace Kck_projekt_1.Views
                     playerArt.Draw();
                     break;
                 case GameObjectInfo.GameObjectTypeEnum.EnemyTierI:
-                    weakEnemyArt.Draw();
+                    enemyTierIArt.Draw();
                     break;
                 case GameObjectInfo.GameObjectTypeEnum.EnemyTierII:
                     break;

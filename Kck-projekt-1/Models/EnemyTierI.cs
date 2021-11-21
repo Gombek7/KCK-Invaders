@@ -6,9 +6,9 @@ using System.Text;
 
 namespace Kck_projekt_1.Models
 {
-    class WeakEnemy : Enemy
+    class EnemyTierI : Enemy
     {
-        public WeakEnemy(Vector2Int coords, int Health = 1) : base(coords, Health)
+        public EnemyTierI(Vector2Int coords, int Health = 1) : base(coords, Health)
         {
 
         }

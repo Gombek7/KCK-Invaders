@@ -17,7 +17,7 @@
     <None Update="Art\playerProjectile.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Art\weakEnemy.txt">
+    <None Update="Art\enemyTierI.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Art\player.txt">
