@@ -54,10 +54,7 @@ namespace Kck_projekt_1.ViewModels
         public ObservableCollection<GameObjectInfo> GameObjectInfos { get; private set; }
 
         private Player player;
-        private WeakEnemy enemy;
-
-        //private PlayerProjectile playerProjectile;
-        private EnemyProjectile enemyProjectile;
+        private Enemy[] enemies;
 
         public ICommand MoveRightCommand { get; }
         public ICommand MoveLeftCommand { get; }
@@ -83,9 +80,14 @@ namespace Kck_projekt_1.ViewModels
             //game init
             GameObjectInfos = new ObservableCollection<GameObjectInfo>();
             player = new Player(new Vector2Int(GameConfig.Width/2, 20), 3);
-            enemy = new WeakEnemy(new Vector2Int(5, 5));
-            player.Projectile.AddTarget(enemy);
-            enemy.Projectile.AddTarget(player);
+
+            enemies = new Enemy[5];
+            for (int i = 0; i < 5; i++)
+            {
+                enemies[i] = new WeakEnemy(new Vector2Int(2 + i*5, 5));
+                enemies[i].Projectile.AddTarget(player);
+                player.Projectile.AddTarget(enemies[i]);
+            }
         }
 
         void MoveRight()
@@ -103,8 +105,8 @@ namespace Kck_projekt_1.ViewModels
         void NextFrame()
         {
             player.NextFrame();
-            enemy.NextFrame();
-
+            foreach(Enemy enemy in enemies)
+                enemy.NextFrame();
         }
     }
 }

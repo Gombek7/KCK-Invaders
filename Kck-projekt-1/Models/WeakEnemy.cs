@@ -13,7 +13,7 @@ namespace Kck_projekt_1.Models
 
         }
 
-        protected override void UpdateInfo()
+        public override void UpdateInfo()
         {
             GameObjectInfo info = new GameObjectInfo(this) { GameObjectType = GameObjectInfo.GameObjectTypeEnum.EnemyTierI };
             if (Id >= ViewModel.Instance.GameObjectInfos.Count)

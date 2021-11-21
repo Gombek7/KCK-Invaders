@@ -58,7 +58,7 @@ namespace Kck_projekt_1.Models
 
             Projectile.NextFrame();
         }
-        protected override void UpdateInfo()
+        public override void UpdateInfo()
         {
             GameObjectInfo info = new GameObjectInfo(this) { GameObjectType = GameObjectInfo.GameObjectTypeEnum.Player };
             if (Id >= ViewModel.Instance.GameObjectInfos.Count)

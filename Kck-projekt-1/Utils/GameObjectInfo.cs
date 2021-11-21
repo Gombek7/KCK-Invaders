@@ -14,6 +14,7 @@ namespace Kck_projekt_1.Utils
             EnemyTierI,
             EnemyTierII,
             EnemyTierIII,
+            EnemyTierIV,
             Obstacle,
             PlayerProjectile,
             EnemyProjectile

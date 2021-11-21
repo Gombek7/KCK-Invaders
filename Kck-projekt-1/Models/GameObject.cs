@@ -71,6 +71,6 @@ namespace Kck_projekt_1.Models
             CurrentHealth = MaxHealth = Health;
             UpdateInfo();
         }
-        protected abstract void UpdateInfo();
+        public abstract void UpdateInfo();
     }
 }

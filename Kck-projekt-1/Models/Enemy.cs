@@ -9,9 +9,11 @@ namespace Kck_projekt_1.Models
     {
         protected Random random = new Random();
         protected Vector2Int moveVector = new Vector2Int(1,0);
-        protected int moveFrameDelay = 5;
-        protected int currentMoveFrameDelay = 5;
-        private float shotChance = 0.05f;
+        protected int moveFrameDelay = 8;
+        protected int currentMoveFrameDelay = 8;
+        private bool changingDirection = false;
+        public static event Action SomeoneTouchedBorder;
+        private float shotChance = 0.04f;
         public float ShotChance
         {
             get => shotChance;
@@ -32,21 +34,38 @@ namespace Kck_projekt_1.Models
         protected Enemy(Vector2Int coords, int Health = 1) : base(coords, Health)
         {
             Projectile = new EnemyProjectile(Position);
+            SomeoneTouchedBorder += onTouchedBorder;
         }
+
         public override void NextFrame()
         {
             if (!IsDestroyed)
             {
                 if (--currentMoveFrameDelay < 0)
                 {
-                    currentMoveFrameDelay = moveFrameDelay;
-                    Vector2Int newPosition = Position + moveVector;
-                    if ((newPosition + Hitbox.UpperLeftCorner).IsCorrectCoords() && (newPosition + Hitbox.RightDownCorner).IsCorrectCoords())
+                    if (changingDirection)
                     {
-                        MoveTo(newPosition);
+                        MoveTo(Position + new Vector2Int(0, 1));
+                        moveVector = -moveVector;
+                        changingDirection = false;
                     }
                     else
-                        moveVector = -moveVector;
+                    {
+                        currentMoveFrameDelay = moveFrameDelay;
+                        Vector2Int newPosition = Position + moveVector;
+                        if ((newPosition + Hitbox.UpperLeftCorner).IsCorrectCoords() && (newPosition + Hitbox.RightDownCorner).IsCorrectCoords())
+                        {
+                            MoveTo(newPosition);
+                        }
+                        else
+                        {
+                            SomeoneTouchedBorder();
+                            //MoveTo(Position + new Vector2Int(0, 1));
+                            //moveVector = -moveVector;
+                            //changingDirection = false;
+                        }
+                            
+                    }
                     UpdateInfo();
                 }
 
@@ -65,6 +84,10 @@ namespace Kck_projekt_1.Models
             base.Hit(damage);
             if (IsDestroyed)
                 ViewModel.Instance.Score++;
+        }
+        private void onTouchedBorder()
+        {
+            changingDirection = true;
         }
     }
 }

@@ -110,29 +110,6 @@ namespace Kck_projekt_1.Utils
             }
         }
 
-        public static string LoadArt(string path)
-        {
-            string output = "\u001b[s";
-            int offset = 1;
-            string[] lines;
-            try
-            {
-                lines = System.IO.File.ReadAllLines(path);
-            }
-            catch
-            {
-                lines = new string[1];
-                lines[0] = "";
-            }
-            foreach(string line in lines)
-            {
-                output += line;
-                output += $"\u001b[u\u001b[{offset++}B";
-            }
-
-            return output;
-        }
-
         public static void PrintBigDigit(int d)
         {
             switch (d)
