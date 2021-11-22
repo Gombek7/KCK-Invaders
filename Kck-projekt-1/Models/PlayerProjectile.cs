@@ -12,6 +12,7 @@ namespace Kck_projekt_1.Models
         {
             direction = new Vector2Int(0, -1);
             moveFrameDelay = 0;
+            skinsCount = 3;
             Hitbox = new Hitbox() {UpperLeftCorner = new Vector2Int(0,-1), RightDownCorner = new Vector2Int(0, 1) };
         }
 

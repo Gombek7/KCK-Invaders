@@ -76,7 +76,7 @@ namespace Kck_projekt_1.Models
         public void Shoot()
         {
             if (Projectile.IsDestroyed)
-                Projectile.Reincarnate(Position);
+                Projectile.Reincarnate(Position + new Vector2Int(0, -3));
         }
     }
 }

@@ -63,8 +63,8 @@ namespace Kck_projekt_1.ViewModels
         public ObservableCollection<GameObjectInfo> GameObjectInfos { get; private set; }
 
         private Player player;
-        private Enemy[] enemies;
-        private Obstacle[] obstacles;
+        private List<Enemy> enemies;
+        private List<Obstacle> obstacles;
 
         public ICommand MoveRightCommand { get; }
         public ICommand MoveLeftCommand { get; }
@@ -91,46 +91,84 @@ namespace Kck_projekt_1.ViewModels
 
             //game init
             GameObjectInfos = new ObservableCollection<GameObjectInfo>();
-            player = new Player(new Vector2Int(GameConfig.Width / 2, 30), 3);
+            player = new Player(new Vector2Int(GameConfig.Width / 2, GameConfig.Height - 2), 3);
             Lifes = 3;
-            enemies = new Enemy[15];
-            for (int i = 0; i < 5; i++)
+            int enemiesLineCount = (GameConfig.Width - 10) / 7;
+            enemies = new List<Enemy>();
+            for (int i = 0; i < enemiesLineCount; i++)
             {
-                enemies[i] = new EnemyTierIII(new Vector2Int(2 + i * 7, 2));
-                enemies[i].Projectile.AddTarget(player);
-                player.Projectile.AddTarget(enemies[i]);
-                player.Projectile.AddTarget(enemies[i].Projectile);
+                Enemy newEnemyIII = new EnemyTierIII(new Vector2Int(2 + i * 7, 2));
+                newEnemyIII.Projectile.AddTarget(player);
+                player.Projectile.AddTarget(newEnemyIII);
+                player.Projectile.AddTarget(newEnemyIII.Projectile);
+                enemies.Add(newEnemyIII);
             }
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < enemiesLineCount; i++)
             {
-                enemies[i + 5] = new EnemyTierII(new Vector2Int(2 + i * 7, 7));
-                enemies[i + 5].Projectile.AddTarget(player);
-                player.Projectile.AddTarget(enemies[i + 5]);
-                player.Projectile.AddTarget(enemies[i + 5].Projectile);
+                Enemy newEnemyII = new EnemyTierII(new Vector2Int(3 + i * 7, 6));
+                newEnemyII.Projectile.AddTarget(player);
+                player.Projectile.AddTarget(newEnemyII);
+                player.Projectile.AddTarget(newEnemyII.Projectile);
+                enemies.Add(newEnemyII);
+                newEnemyII = new EnemyTierII(new Vector2Int(3 + i * 7, 10));
+                newEnemyII.Projectile.AddTarget(player);
+                player.Projectile.AddTarget(newEnemyII);
+                player.Projectile.AddTarget(newEnemyII.Projectile);
+                enemies.Add(newEnemyII);
             }
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < enemiesLineCount; i++)
             {
-                enemies[i + 10] = new EnemyTierI(new Vector2Int(2 + i * 7, 10));
-                enemies[i + 10].Projectile.AddTarget(player);
-                player.Projectile.AddTarget(enemies[i + 10]);
-                player.Projectile.AddTarget(enemies[i + 10].Projectile);
+                Enemy newEnemyI = new EnemyTierI(new Vector2Int(2 + i * 7, 14));
+                newEnemyI.Projectile.AddTarget(player);
+                player.Projectile.AddTarget(newEnemyI);
+                player.Projectile.AddTarget(newEnemyI.Projectile);
+                enemies.Add(newEnemyI);
+                newEnemyI = new EnemyTierI(new Vector2Int(2 + i * 7, 18));
+                newEnemyI.Projectile.AddTarget(player);
+                player.Projectile.AddTarget(newEnemyI);
+                player.Projectile.AddTarget(newEnemyI.Projectile);
+                enemies.Add(newEnemyI);
             }
 
-            obstacles = new Obstacle[5];
-            for (int i = 0; i < 5; i++)
+            obstacles = new List<Obstacle>();
+            for (int i=5; i<=(GameConfig.Width-15); i+=17 )
+                initBaricade(i, GameConfig.Height - 10);
+        }
+        void initBaricade(int x, int y)
+        {
+            for (int i = 3; i <= 7; i += 2)
+                initObstacle(x + i, y);
+            for (int i = 1; i <= 9; i += 2)
+                initObstacle(x + i, y+1);
+            for (int i = 1; i <= 3; i += 2)
             {
-                obstacles[i] = new Obstacle(new Vector2Int(2 + i * 7, 25));
-                foreach (Enemy enemy in enemies)
-                    enemy.Projectile.AddTarget(obstacles[i]);
-                player.Projectile.AddTarget(obstacles[i]);
+                initObstacle(x + i, y + 2);
+                initObstacle(x + i, y + 3);
+            }
+            for (int i = 7; i <= 9; i += 2)
+            {
+                initObstacle(x + i, y + 2);
+                initObstacle(x + i, y + 3);
             }
         }
-
+        void initObstacle(int x, int y)
+        {
+            Obstacle newObstacle = new Obstacle(new Vector2Int(x, y));
+            foreach (Enemy enemy in enemies)
+                enemy.Projectile.AddTarget(newObstacle);
+            player.Projectile.AddTarget(newObstacle);
+            obstacles.Add(newObstacle);
+        }
         void ManualRefreshData()
         {
             player.UpdateInfo();
+            player.Projectile.UpdateInfo();
             foreach (Enemy enemy in enemies)
+            {
                 enemy.UpdateInfo();
+                enemy.Projectile.UpdateInfo();
+            }
+                
             foreach (Obstacle obstacle in obstacles)
                 obstacle.UpdateInfo();
         }

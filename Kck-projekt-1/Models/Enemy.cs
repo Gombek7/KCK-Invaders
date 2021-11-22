@@ -9,10 +9,10 @@ namespace Kck_projekt_1.Models
     {
         protected Random random = new Random();
         protected Vector2Int moveVector = new Vector2Int(1,0);
-        protected int moveFrameDelay = 8;
-        protected int currentMoveFrameDelay = 8;
+        protected int moveFrameDelay = 10;
+        protected int currentMoveFrameDelay = 10;
         public static bool borderCollision = false;
-        private float shotChance = 0.01f;
+        private float shotChance = 0.02f;
         protected int scoreValue = 5;
         public float ShotChance
         {
@@ -55,6 +55,7 @@ namespace Kck_projekt_1.Models
                         if ((float)random.NextDouble() <= ShotChance && Projectile.IsDestroyed)
                             Projectile.Reincarnate(Position);
                     }
+                    Skin = (Skin + 1) % 2;
                     UpdateInfo();
                 }
             }

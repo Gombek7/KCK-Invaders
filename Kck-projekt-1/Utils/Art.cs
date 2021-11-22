@@ -6,16 +6,13 @@ namespace Kck_projekt_1.Utils
 {
     class Art
     {
-        private string[] frames;
-        private int currentFrameId = 0;
-        private int currentFrameDelay = 0;
+        private string[] skins;
         
         public ConsoleColor Color { get; set; } = ConsoleColor.White;
         public int NextFrameDelay { get; set; } = 0;
 
         public Art(string path)
         {
-            //content = new string[1];
             List<string> loadedFrames = new List<string>();
             
             string[] lines;
@@ -40,34 +37,22 @@ namespace Kck_projekt_1.Utils
                 loadedFrames.Add(output);
             }
 
-            frames = loadedFrames.ToArray();
+            skins = loadedFrames.ToArray();
         }
 
-        public void Draw(int x, int y)
+        public void Draw(int x, int y, int skin = 0)
         {
             Console.SetCursorPosition(x, y);
-            Draw();
+            Draw(skin);
         }
-        public void Draw()
+        public void Draw(int skin = 0)
         {
-            ConsoleColor currentColor = Console.ForegroundColor;
-            Console.ForegroundColor = Color;
-            Console.Write(frames[currentFrameId]);
-            Console.ForegroundColor = currentColor;
+            if (skin < 0) skin = 0;
+            skin = skin % skins.Length;
 
-            if (currentFrameDelay++ == NextFrameDelay)
-            {
-                currentFrameDelay = 0;
-                currentFrameId = (currentFrameId + 1) % frames.Length;
-            }
-        }
-        public void DrawFrame(int f)
-        {
-            if (f < 0) f = 0;
-            if (f >= frames.Length) f = frames.Length - 1;
             ConsoleColor currentColor = Console.ForegroundColor;
             Console.ForegroundColor = Color;
-            Console.Write(frames[f]);
+            Console.Write(skins[skin]);
             Console.ForegroundColor = currentColor;
         }
     }

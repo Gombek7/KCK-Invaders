@@ -9,6 +9,7 @@ namespace Kck_projekt_1.Models
         protected Vector2Int direction;
         protected int moveFrameDelay = 2;
         protected int currentMoveFrameDelay = 2;
+        protected int skinsCount = 1;
         public Projectile(Vector2Int coords) : base(coords, 1)
         {
             targets = new List<GameObject>();
@@ -25,16 +26,18 @@ namespace Kck_projekt_1.Models
                 if ((newPosition + Hitbox.UpperLeftCorner).IsCorrectCoords() && (newPosition + Hitbox.RightDownCorner).IsCorrectCoords())
                 {
                     MoveTo(newPosition);
-                    foreach(GameObject target in targets)
+                    Skin = (Skin + 1) % skinsCount;
+                    UpdateInfo();
+                    foreach (GameObject target in targets)
                         if (!target.IsDestroyed && Collides(target))
                         {
                             Hit(1);
                             target.Hit(1);
+                            return;
                         }
                 }
                 else
                     Hit(1);
-                UpdateInfo();
             }
         }
 

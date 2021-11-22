@@ -10,7 +10,7 @@ namespace Kck_projekt_1.Models
     {
         public Obstacle(Vector2Int coords) : base(coords, 4)
         {
-            Hitbox = new Hitbox() { UpperLeftCorner = new Vector2Int(0, 0), RightDownCorner = new Vector2Int(1, 0) };
+            Hitbox = new Hitbox() { UpperLeftCorner = new Vector2Int(-1, 0), RightDownCorner = new Vector2Int(0, 0) };
         }
 
         public override void NextFrame()
@@ -20,6 +20,7 @@ namespace Kck_projekt_1.Models
         public override void Hit(int damage = 1)
         {
             base.Hit(damage);
+            Skin++;
             UpdateInfo();
         }
 

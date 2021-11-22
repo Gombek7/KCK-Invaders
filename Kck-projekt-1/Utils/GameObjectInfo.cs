@@ -33,20 +33,21 @@ namespace Kck_projekt_1.Utils
                 }
             }
         }
-        public int HP { get; set; }
+        public int Skin { get; set; }
         public Hitbox Hitbox { get; set; }
-
+        public bool IsDestroyed { get; set; }
         public GameObjectInfo(GameObject gameObject)
         {
             Position = new Vector2Int(gameObject.Position);
             Hitbox = gameObject.Hitbox;
-            HP = gameObject.CurrentHealth;
+            Skin = gameObject.Skin;
+            IsDestroyed = gameObject.IsDestroyed;
         }
 
 
         public override string ToString()
         {
-            return $"GameObjectInfo Position: {Position} Hp: {HP}";
+            return $"GameObjectInfo Position: {Position} Skin: {Skin}";
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -94,6 +94,7 @@ namespace Kck_projekt_1.Views
         }
         public int Start()
         {
+            ConsoleUtils.Fill(' ',0, 0, GameConfig.Width-1, GameConfig.Height-1);
             viewModel.ManualRefreshDataCommand.Execute(null);
             string key = "none";
             while (true)
@@ -132,9 +133,7 @@ namespace Kck_projekt_1.Views
             {
                 case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
                     foreach(GameObjectInfo objectInfo in e.NewItems)
-                    {
                         DrawObject(objectInfo);
-                    }
                     break;
                 case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
                     foreach (GameObjectInfo objectInfo in e.OldItems)
@@ -145,7 +144,8 @@ namespace Kck_projekt_1.Views
                 case System.Collections.Specialized.NotifyCollectionChangedAction.Replace:
                     foreach (GameObjectInfo objectInfo in e.OldItems)
                     {
-                        ClearObject(objectInfo);
+                        if(!objectInfo.IsDestroyed)
+                            ClearObject(objectInfo);
                     }
                     foreach (GameObjectInfo objectInfo in e.NewItems)
                     {
@@ -187,32 +187,35 @@ namespace Kck_projekt_1.Views
 
         private void DrawObject(GameObjectInfo objectInfo)
         {
-            if (objectInfo.HP <= 0)
+            if (objectInfo.IsDestroyed)
                 return;
             Vector2Int UL = objectInfo.Position + objectInfo.Hitbox.UpperLeftCorner;
             Console.SetCursorPosition(UL.x, UL.y);
             switch (objectInfo.GameObjectType)
             {
                 case GameObjectInfo.GameObjectTypeEnum.Player:
-                    playerArt.Draw();
+                    playerArt.Draw(objectInfo.Skin);
                     break;
                 case GameObjectInfo.GameObjectTypeEnum.EnemyTierI:
-                    enemyTierIArt.Draw();
+                    enemyTierIArt.Draw(objectInfo.Skin);
                     break;
                 case GameObjectInfo.GameObjectTypeEnum.EnemyTierII:
-                    enemyTierIIArt.Draw();
+                    enemyTierIIArt.Draw(objectInfo.Skin);
                     break;
                 case GameObjectInfo.GameObjectTypeEnum.EnemyTierIII:
-                    enemyTierIIIArt.Draw();
+                    enemyTierIIIArt.Draw(objectInfo.Skin);
                     break;
                 case GameObjectInfo.GameObjectTypeEnum.Obstacle:
-                    obstacleArt.DrawFrame(4-objectInfo.HP);
+                    //Vector2Int l = objectInfo.Position + objectInfo.Hitbox.UpperLeftCorner;
+                    //Vector2Int r = objectInfo.Position + objectInfo.Hitbox.RightDownCorner;
+                    //ConsoleUtils.DrawBorder(l.x, l.y, r.x, r.y, ConsoleColor.Black, ConsoleColor.Green);
+                    obstacleArt.Draw(objectInfo.Skin);
                     break;
                 case GameObjectInfo.GameObjectTypeEnum.PlayerProjectile:
-                    playerProjectileArt.Draw();
+                    playerProjectileArt.Draw(objectInfo.Skin);
                     break;
                 case GameObjectInfo.GameObjectTypeEnum.EnemyProjectile:
-                    enemyProjectileArt.Draw();
+                    enemyProjectileArt.Draw(objectInfo.Skin);
                     break;
             }
 

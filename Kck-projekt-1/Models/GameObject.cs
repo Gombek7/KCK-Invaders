@@ -9,6 +9,7 @@ namespace Kck_projekt_1.Models
     {
         private static int idCounter = 0;
         private readonly int id = idCounter++;
+        public int Skin { get; set; }
         public int Id { get => id; }
 
         public bool IsDestroyed
@@ -28,6 +29,7 @@ namespace Kck_projekt_1.Models
         {
             Position = coords;
             CurrentHealth = MaxHealth = Health;
+            Skin = 0;
             //ViewModel.Instance.GameObjectInfos.Add(new Utils.GameObjectInfo(this));
         }
         public void MoveTo(Vector2Int coords)
@@ -69,6 +71,7 @@ namespace Kck_projekt_1.Models
         {
             Position = coords;
             CurrentHealth = MaxHealth = Health;
+            Skin = 0;
             UpdateInfo();
         }
         public abstract void UpdateInfo();
