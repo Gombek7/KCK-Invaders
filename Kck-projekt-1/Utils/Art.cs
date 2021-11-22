@@ -10,6 +10,9 @@ namespace Kck_projekt_1.Utils
         
         public ConsoleColor Color { get; set; } = ConsoleColor.White;
         public int NextFrameDelay { get; set; } = 0;
+        public int Skins { get => skins.Length; }
+        public int Width { get; private set; } = 0;
+        public int Height { get; private set; } = 0;
 
         public Art(string path)
         {
@@ -31,9 +34,13 @@ namespace Kck_projekt_1.Utils
                 int offset = 1;
                 while (!String.IsNullOrEmpty(lines[i]))
                 {
-                    output += lines[i++];
+                    string line = lines[i++];
+                    output += line;
                     output += $"\u001b[u\u001b[{offset++}B";
+                    if (Width < line.Length) Width = line.Length;
                 }
+
+                if (Height < offset-1) Height = offset-1;
                 loadedFrames.Add(output);
             }
 
@@ -48,7 +55,7 @@ namespace Kck_projekt_1.Utils
         public void Draw(int skin = 0)
         {
             if (skin < 0) skin = 0;
-            skin = skin % skins.Length;
+            skin %= skins.Length;
 
             ConsoleColor currentColor = Console.ForegroundColor;
             Console.ForegroundColor = Color;

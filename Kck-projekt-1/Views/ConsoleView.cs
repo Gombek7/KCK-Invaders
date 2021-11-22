@@ -28,6 +28,9 @@ namespace Kck_projekt_1.Views
         Art obstacleArt;
         Art playerProjectileArt;
         Art enemyProjectileArt;
+        Art explosionArt;
+        Art titleArt;
+        EffectPlayer effectPlayer;
         public ConsoleView()
         {
             viewModel = ViewModel.Instance;
@@ -38,12 +41,12 @@ namespace Kck_projekt_1.Views
             playerArt = new Art(@"Art\player.txt");
             enemyTierIArt = new Art(@"Art\enemyTierI.txt")
             {
-                Color = ConsoleColor.Green,
+                Color = ConsoleColor.DarkGray,
                 NextFrameDelay = 1
             };
             enemyTierIIArt = new Art(@"Art\enemyTierII.txt")
             {
-                Color = ConsoleColor.Green,
+                Color = ConsoleColor.DarkGreen,
                 NextFrameDelay = 1
             };
             enemyTierIIIArt = new Art(@"Art\enemyTierIII.txt")
@@ -63,37 +66,26 @@ namespace Kck_projekt_1.Views
             {
                 Color = ConsoleColor.Green
             };
+            explosionArt = new Art(@"Art\explosion.txt")
+            {
+                Color = ConsoleColor.Yellow
+            };
+            titleArt = new Art(@"Art\title.txt")
+            {
+                Color = ConsoleColor.DarkGreen
+            };
 
+            effectPlayer = new EffectPlayer();
             //Configure Console
             Console.Title = "KCK Invaders by Jarosław Dakowicz";
             Console.SetWindowSize(GameConfig.Width + 20, GameConfig.Height + 2);
             Console.CursorVisible = false;
-            
-
-            //Draw Basic UI
-            ConsoleUtils.DrawBorder(-1, -1, GameConfig.Width, GameConfig.Height,ConsoleColor.Black, ConsoleColor.Cyan);
-
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.SetCursorPosition(GameConfig.Width + 6, 0);
-            Console.Write("SCORE");
-            Console.SetCursorPosition(GameConfig.Width + 1, 1);
-            ConsoleUtils.PrintBigNumber(0, 5);
-
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.SetCursorPosition(GameConfig.Width + 6, 4);
-            Console.Write("LIFES");
-            Console.SetCursorPosition(GameConfig.Width + 1, 5);
-            ConsoleUtils.PrintBigNumber(viewModel.Lifes, 5);
-
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.SetCursorPosition(GameConfig.Width + 5, 9);
-            Console.Write("RANKING");
-
-            Console.ForegroundColor = ConsoleColor.White;
 
         }
         public int Start()
         {
+            WelcomeScreen();
+            GameScreen();
             ConsoleUtils.Fill(' ',0, 0, GameConfig.Width-1, GameConfig.Height-1);
             viewModel.ManualRefreshDataCommand.Execute(null);
             string key = "none";
@@ -123,8 +115,79 @@ namespace Kck_projekt_1.Views
                 }
                 Thread.Sleep(1000 / ConsoleViewConfig.Fps);
                 viewModel.NextFrameCommand.Execute(null);
+                effectPlayer.UpdateEffects();
             }
             return 0;
+        }
+        private void WelcomeScreen()
+        {
+            Console.SetWindowSize(118, 35);
+            titleArt.Draw(1, 1, 0);
+
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+            Console.ForegroundColor = ConsoleColor.Black;
+            ConsoleUtils.Fill('=',0,10,118,10);
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
+
+            ConsoleUtils.DrawBorder(20, 12, 98, 33, ConsoleColor.DarkCyan, ConsoleColor.White);
+
+            enemyTierIArt.Draw(50, 14);
+            Console.SetCursorPosition(58, 14);
+            Console.Write("===\u001b[1B\u001b[3D===");
+            Console.SetCursorPosition(64, 14);
+            ConsoleUtils.PrintBigNumber(5, 2);
+
+            enemyTierIIArt.Draw(50, 18);
+            Console.SetCursorPosition(58, 18);
+            Console.Write("===\u001b[1B\u001b[3D===");
+            Console.SetCursorPosition(64, 18);
+            ConsoleUtils.PrintBigNumber(10, 2);
+
+            enemyTierIIIArt.Draw(50, 22);
+            Console.SetCursorPosition(58, 22);
+            Console.Write("===\u001b[1B\u001b[3D===");
+            Console.SetCursorPosition(64, 22);
+            ConsoleUtils.PrintBigNumber(20, 2);
+
+            Console.SetCursorPosition(48, 31);
+            Console.Write("PRESS SPACE TO START!");
+            while (Console.ReadKey(true).Key != ConsoleKey.Spacebar)
+            {
+
+            }
+
+            ConsoleUtils.Fill(' ', 0, 0, 118, 35);
+        }
+        private void GameScreen()
+        {
+            //Configure Console
+            Console.SetWindowSize(GameConfig.Width + 20, GameConfig.Height + 2);
+            Console.CursorVisible = false;
+
+
+            //Draw Basic UI
+            ConsoleUtils.DrawBorder(-1, -1, GameConfig.Width, GameConfig.Height, ConsoleColor.Black, ConsoleColor.Cyan);
+
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.SetCursorPosition(GameConfig.Width + 6, 0);
+            Console.Write("SCORE");
+            Console.SetCursorPosition(GameConfig.Width + 1, 1);
+            ConsoleUtils.PrintBigNumber(0, 5);
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.SetCursorPosition(GameConfig.Width + 6, 4);
+            Console.Write("LIFES");
+            Console.SetCursorPosition(GameConfig.Width + 1, 5);
+            ConsoleUtils.PrintBigNumber(viewModel.Lifes, 5);
+
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.SetCursorPosition(GameConfig.Width + 5, 9);
+            Console.Write("RANKING");
+
+            Console.ForegroundColor = ConsoleColor.White;
+
+
         }
 
         private void ObjectsChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -149,7 +212,18 @@ namespace Kck_projekt_1.Views
                     }
                     foreach (GameObjectInfo objectInfo in e.NewItems)
                     {
-                        DrawObject(objectInfo);
+                        if (objectInfo.IsDestroyed && (
+                                objectInfo.GameObjectType == GameObjectInfo.GameObjectTypeEnum.Player ||
+                                objectInfo.GameObjectType == GameObjectInfo.GameObjectTypeEnum.EnemyTierI ||
+                                objectInfo.GameObjectType == GameObjectInfo.GameObjectTypeEnum.EnemyTierII ||
+                                objectInfo.GameObjectType == GameObjectInfo.GameObjectTypeEnum.EnemyTierIII ||
+                                objectInfo.GameObjectType == GameObjectInfo.GameObjectTypeEnum.EnemyTierIV))
+                        {
+                            Vector2Int effectPosition = objectInfo.Position + objectInfo.Hitbox.UpperLeftCorner;
+                            effectPlayer.PlayEffect(effectPosition.x, effectPosition.y, explosionArt);
+                        }
+                        else
+                            DrawObject(objectInfo);
                     }
                     break;
                 case System.Collections.Specialized.NotifyCollectionChangedAction.Move:
@@ -169,7 +243,7 @@ namespace Kck_projekt_1.Views
                 case nameof(ViewModel.Score):
                     ConsoleUtils.Fill(' ', GameConfig.Width + 1, 1, GameConfig.Width + 16, 3);
                     Console.SetCursorPosition(GameConfig.Width + 1, 1);
-                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
                     ConsoleUtils.PrintBigNumber(viewModel.Score, 5);
                     Console.ForegroundColor = ConsoleColor.White;
                     break;
@@ -188,7 +262,10 @@ namespace Kck_projekt_1.Views
         private void DrawObject(GameObjectInfo objectInfo)
         {
             if (objectInfo.IsDestroyed)
+            {
                 return;
+            }
+
             Vector2Int UL = objectInfo.Position + objectInfo.Hitbox.UpperLeftCorner;
             Console.SetCursorPosition(UL.x, UL.y);
             switch (objectInfo.GameObjectType)

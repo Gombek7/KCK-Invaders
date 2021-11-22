@@ -15,6 +15,7 @@ namespace Kck_projekt_1.Models
                 UpperLeftCorner = new Vector2Int(-1, -1),
                 RightDownCorner = new Vector2Int(2, 1)
             };
+            scoreValue = 5;
         }
 
         public override void UpdateInfo()
