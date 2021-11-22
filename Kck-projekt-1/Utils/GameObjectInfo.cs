@@ -33,20 +33,20 @@ namespace Kck_projekt_1.Utils
                 }
             }
         }
-        public float HPPercentage { get; set; }
+        public int HP { get; set; }
         public Hitbox Hitbox { get; set; }
 
         public GameObjectInfo(GameObject gameObject)
         {
             Position = new Vector2Int(gameObject.Position);
             Hitbox = gameObject.Hitbox;
-            HPPercentage = (float)gameObject.CurrentHealth / gameObject.MaxHealth;
+            HP = gameObject.CurrentHealth;
         }
 
 
         public override string ToString()
         {
-            return $"GameObjectInfo Position: {Position} Hp: {HPPercentage}";
+            return $"GameObjectInfo Position: {Position} Hp: {HP}";
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

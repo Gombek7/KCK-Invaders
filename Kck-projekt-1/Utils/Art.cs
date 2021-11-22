@@ -61,5 +61,14 @@ namespace Kck_projekt_1.Utils
                 currentFrameId = (currentFrameId + 1) % frames.Length;
             }
         }
+        public void DrawFrame(int f)
+        {
+            if (f < 0) f = 0;
+            if (f >= frames.Length) f = frames.Length - 1;
+            ConsoleColor currentColor = Console.ForegroundColor;
+            Console.ForegroundColor = Color;
+            Console.Write(frames[f]);
+            Console.ForegroundColor = currentColor;
+        }
     }
 }

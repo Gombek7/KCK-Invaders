@@ -10,7 +10,11 @@ namespace Kck_projekt_1.Models
     {
         public EnemyTierI(Vector2Int coords, int Health = 1) : base(coords, Health)
         {
-
+            Hitbox = new Hitbox()
+            {
+                UpperLeftCorner = new Vector2Int(-1, -1),
+                RightDownCorner = new Vector2Int(2, 1)
+            };
         }
 
         public override void UpdateInfo()

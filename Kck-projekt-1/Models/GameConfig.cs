@@ -6,8 +6,8 @@ namespace Kck_projekt_1.Models
 {
     static class GameConfig
     {
-        public static int Fps { get; } = 60;
-        public static int Width { get; } = 50;
-        public static int Height { get; } = 25;
+        public static int Fps { get; } = 30;
+        public static int Width { get; } = 100;
+        public static int Height { get; } = 40;
     }
 }
