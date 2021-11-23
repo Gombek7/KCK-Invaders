@@ -4,6 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>Kck_projekt_1</RootNamespace>
+    <AssemblyName>KckInvaders</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

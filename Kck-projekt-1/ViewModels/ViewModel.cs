@@ -31,7 +31,22 @@ namespace Kck_projekt_1.ViewModels
                 if (score != value)
                 {
                     score = value;
+                    if (HighScore < Score)
+                        HighScore = Score;
                     OnPropertyChange(nameof(Score));
+                }
+            }
+        }
+        private int highScore = 0;
+        public int HighScore
+        {
+            get => highScore;
+            private set
+            {
+                if (highScore != value)
+                {
+                    highScore = value;
+                    OnPropertyChange(nameof(HighScore));
                 }
             }
         }
@@ -121,33 +136,35 @@ namespace Kck_projekt_1.ViewModels
                 player.Projectile.AddTarget(newEnemyIII.Projectile);
                 enemies.Add(newEnemyIII);
             }
-            for (int i = 0; i < enemiesLineCount; i++)
+            if (!GameConfig.EasyMode)
             {
-                Enemy newEnemyII = new EnemyTierII(new Vector2Int(3 + i * 7, 6));
-                newEnemyII.Projectile.AddTarget(player);
-                player.Projectile.AddTarget(newEnemyII);
-                player.Projectile.AddTarget(newEnemyII.Projectile);
-                enemies.Add(newEnemyII);
-                newEnemyII = new EnemyTierII(new Vector2Int(3 + i * 7, 10));
-                newEnemyII.Projectile.AddTarget(player);
-                player.Projectile.AddTarget(newEnemyII);
-                player.Projectile.AddTarget(newEnemyII.Projectile);
-                enemies.Add(newEnemyII);
+                for (int i = 0; i < enemiesLineCount; i++)
+                {
+                    Enemy newEnemyII = new EnemyTierII(new Vector2Int(3 + i * 7, 6));
+                    newEnemyII.Projectile.AddTarget(player);
+                    player.Projectile.AddTarget(newEnemyII);
+                    player.Projectile.AddTarget(newEnemyII.Projectile);
+                    enemies.Add(newEnemyII);
+                    newEnemyII = new EnemyTierII(new Vector2Int(3 + i * 7, 10));
+                    newEnemyII.Projectile.AddTarget(player);
+                    player.Projectile.AddTarget(newEnemyII);
+                    player.Projectile.AddTarget(newEnemyII.Projectile);
+                    enemies.Add(newEnemyII);
+                }
+                for (int i = 0; i < enemiesLineCount; i++)
+                {
+                    Enemy newEnemyI = new EnemyTierI(new Vector2Int(2 + i * 7, 14));
+                    newEnemyI.Projectile.AddTarget(player);
+                    player.Projectile.AddTarget(newEnemyI);
+                    player.Projectile.AddTarget(newEnemyI.Projectile);
+                    enemies.Add(newEnemyI);
+                    newEnemyI = new EnemyTierI(new Vector2Int(2 + i * 7, 18));
+                    newEnemyI.Projectile.AddTarget(player);
+                    player.Projectile.AddTarget(newEnemyI);
+                    player.Projectile.AddTarget(newEnemyI.Projectile);
+                    enemies.Add(newEnemyI);
+                }
             }
-            for (int i = 0; i < enemiesLineCount; i++)
-            {
-                Enemy newEnemyI = new EnemyTierI(new Vector2Int(2 + i * 7, 14));
-                newEnemyI.Projectile.AddTarget(player);
-                player.Projectile.AddTarget(newEnemyI);
-                player.Projectile.AddTarget(newEnemyI.Projectile);
-                enemies.Add(newEnemyI);
-                newEnemyI = new EnemyTierI(new Vector2Int(2 + i * 7, 18));
-                newEnemyI.Projectile.AddTarget(player);
-                player.Projectile.AddTarget(newEnemyI);
-                player.Projectile.AddTarget(newEnemyI.Projectile);
-                enemies.Add(newEnemyI);
-            }
-
             obstacles = new List<Obstacle>();
             for (int i=5; i<=(GameConfig.Width-15); i+=17 )
                 initBaricade(i, GameConfig.Height - 10);
@@ -237,6 +254,8 @@ namespace Kck_projekt_1.ViewModels
             {
                 enemies[index++].Reincarnate(new Vector2Int(2 + i * 7, 2));
             }
+            if (GameConfig.EasyMode)
+                return;
             for (int i = 0; i < enemiesLineCount; i++)
             {
                 enemies[index++].Reincarnate(new Vector2Int(3 + i * 7, 6));

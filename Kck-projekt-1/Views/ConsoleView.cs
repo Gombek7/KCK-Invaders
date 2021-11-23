@@ -4,24 +4,40 @@ using System.Text;
 using System.Threading;
 using Kck_projekt_1.ViewModels;
 using Kck_projekt_1.Models;
-using System.Reflection;
 using Kck_projekt_1.Utils;
 using System.Media;
+using System.Runtime.InteropServices;
+
 namespace Kck_projekt_1.Views
 {
-    static class ConsoleViewConfig
-    {
-        public static int Fps { get; } = 60;
-    }
 
     class ConsoleView
     {
+        //enable virtual terminal processing https://www.jerriepelser.com/blog/using-ansi-color-codes-in-net-console-apps/
+        
+        private const int STD_OUTPUT_HANDLE = -11;
+        private const uint ENABLE_VIRTUAL_TERMINAL_PROCESSING = 0x0004;
+        private const uint DISABLE_NEWLINE_AUTO_RETURN = 0x0008;
+
+        [DllImport("kernel32.dll")]
+        private static extern bool GetConsoleMode(IntPtr hConsoleHandle, out uint lpMode);
+
+        [DllImport("kernel32.dll")]
+        private static extern bool SetConsoleMode(IntPtr hConsoleHandle, uint dwMode);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        private static extern IntPtr GetStdHandle(int nStdHandle);
+
+        [DllImport("kernel32.dll")]
+        public static extern uint GetLastError();
+
+        
+
         private ViewModel viewModel;
         //data from viewModel
         //GameObjectInfo ;
 
         //art
-        //TODO: numeracja klatek jest wspólna dla wszystkich. To błąd!
         Art playerArt;
         Art enemyTierIArt;
         Art enemyTierIIArt;
@@ -46,7 +62,8 @@ namespace Kck_projekt_1.Views
         SoundPlayer spaceinvaders1;
         SoundPlayer ufo_highpitch;
         SoundPlayer ufo_lowpitch;
-        
+       
+
         public ConsoleView()
         {
             viewModel = ViewModel.Instance;
@@ -129,7 +146,23 @@ namespace Kck_projekt_1.Views
             Console.Title = "KCK Invaders by Jarosław Dakowicz";
             Console.SetWindowSize(GameConfig.Width + 20, GameConfig.Height + 2);
             Console.CursorVisible = false;
+            
+            
+            var iStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+            if (!GetConsoleMode(iStdOut, out uint outConsoleMode))
+            {
+                Console.WriteLine("failed to get output console mode");
+                Console.ReadKey();
+                return;
+            }
 
+            outConsoleMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+            if (!SetConsoleMode(iStdOut, outConsoleMode))
+            {
+                Console.WriteLine($"failed to set output console mode, error code: {GetLastError()}");
+                Console.ReadKey();
+                return;
+            }
         }
         public int Start()
         {
@@ -216,8 +249,10 @@ namespace Kck_projekt_1.Views
             ConsoleUtils.PrintBigNumber(viewModel.Lifes, 5);
 
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.SetCursorPosition(GameConfig.Width + 5, 9);
-            Console.Write("RANKING");
+            Console.SetCursorPosition(GameConfig.Width + 3, 8);
+            Console.Write("HIGH SCORE");
+            Console.SetCursorPosition(GameConfig.Width + 1, 9);
+            ConsoleUtils.PrintBigNumber(viewModel.HighScore, 5);
 
             Console.ForegroundColor = ConsoleColor.DarkMagenta;
             Console.SetCursorPosition(1, GameConfig.Height + 2);
@@ -260,14 +295,14 @@ namespace Kck_projekt_1.Views
                     while (Console.KeyAvailable)
                         Console.ReadKey(true);
                 }
-                Thread.Sleep(1000 / ConsoleViewConfig.Fps);
+                Thread.Sleep(1000 / GameConfig.Fps);
                 viewModel.NextFrameCommand.Execute(null);
                 effectPlayer.UpdateEffects();
                 if(viewModel.GameOver)
                 {
                     while(effectPlayer.Count > 0)
                     {
-                        Thread.Sleep(1000 / ConsoleViewConfig.Fps);
+                        Thread.Sleep(1000 / GameConfig.Fps);
                         effectPlayer.UpdateEffects();
                     }
                     Thread.Sleep(1000);
@@ -278,7 +313,7 @@ namespace Kck_projekt_1.Views
             }
             while (effectPlayer.Count > 0)
             {
-                Thread.Sleep(1000 / ConsoleViewConfig.Fps);
+                Thread.Sleep(1000 / GameConfig.Fps);
                 effectPlayer.UpdateEffects();
             }
             Thread.Sleep(1000);
@@ -303,6 +338,12 @@ namespace Kck_projekt_1.Views
             Console.Write("YOUR FINAL SCORE:");
             Console.SetCursorPosition(30, 9);
             ConsoleUtils.PrintBigNumber(viewModel.Score, 5);
+
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.SetCursorPosition(32, 12);
+            Console.Write("HIGH SCORE:");
+            Console.SetCursorPosition(30, 13);
+            ConsoleUtils.PrintBigNumber(viewModel.HighScore, 5);
 
             Console.SetCursorPosition(2, 19);
             Console.ForegroundColor = ConsoleColor.Green;
@@ -353,6 +394,12 @@ namespace Kck_projekt_1.Views
             Console.Write("YOUR CURRENT SCORE:");
             Console.SetCursorPosition(30, 9);
             ConsoleUtils.PrintBigNumber(viewModel.Score, 5);
+
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.SetCursorPosition(32, 12);
+            Console.Write("HIGH SCORE:");
+            Console.SetCursorPosition(30, 13);
+            ConsoleUtils.PrintBigNumber(viewModel.HighScore, 5);
 
             Console.SetCursorPosition(2, 19);
             Console.ForegroundColor = ConsoleColor.Green;
@@ -450,6 +497,13 @@ namespace Kck_projekt_1.Views
                     Console.SetCursorPosition(GameConfig.Width + 1, 5);
                     Console.ForegroundColor = ConsoleColor.Red;
                     ConsoleUtils.PrintBigNumber(viewModel.Lifes, 5);
+                    Console.ForegroundColor = ConsoleColor.White;
+                    break;
+                case nameof(ViewModel.HighScore):
+                    ConsoleUtils.Fill(' ', GameConfig.Width + 1, 9, GameConfig.Width + 16, 11);
+                    Console.SetCursorPosition(GameConfig.Width + 1, 9);
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    ConsoleUtils.PrintBigNumber(viewModel.HighScore, 5);
                     Console.ForegroundColor = ConsoleColor.White;
                     break;
                 default:
