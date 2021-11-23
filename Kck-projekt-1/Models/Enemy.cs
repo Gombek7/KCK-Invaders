@@ -72,6 +72,17 @@ namespace Kck_projekt_1.Models
             if (IsDestroyed)
                 ViewModel.Instance.Score += scoreValue;
         }
+
+        public override void Reincarnate(Vector2Int coords, int Health = 1)
+        {
+            base.Reincarnate(coords, Health);
+            if (!Projectile.IsDestroyed)
+                Projectile.Hit(1);
+            borderCollision = false;
+            currentMoveFrameDelay = 10;
+            moveVector = new Vector2Int(1, 0);
+        }
+
         public bool CheckBorderCollision()
         {
             Vector2Int newPosition = Position + moveVector;

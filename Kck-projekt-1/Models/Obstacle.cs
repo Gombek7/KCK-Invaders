@@ -8,11 +8,14 @@ namespace Kck_projekt_1.Models
 {
     class Obstacle : GameObject
     {
-        public Obstacle(Vector2Int coords) : base(coords, 4)
+        public Obstacle(Vector2Int coords, int HP = 4) : base(coords, HP)
         {
             Hitbox = new Hitbox() { UpperLeftCorner = new Vector2Int(-1, 0), RightDownCorner = new Vector2Int(0, 0) };
         }
-
+        public override void Reincarnate(Vector2Int coords, int Health = 4)
+        {
+            base.Reincarnate(coords, 4);
+        }
         public override void NextFrame()
         {
         }

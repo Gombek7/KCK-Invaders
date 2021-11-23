@@ -40,7 +40,7 @@ namespace Kck_projekt_1.Models
             }
         }
 
-        public Player(Vector2Int coords, int Health = 1) : base(coords, Health)
+        public Player(Vector2Int coords, int Health = 3) : base(coords, Health)
         {
             Hitbox = new Hitbox() { UpperLeftCorner = new Vector2Int(-1, -1), RightDownCorner = new Vector2Int(2, 1) };
             Projectile = new PlayerProjectile(Position);
@@ -73,6 +73,12 @@ namespace Kck_projekt_1.Models
             ViewModel.Instance.Lifes -= damage;
         }
 
+        public override void Reincarnate(Vector2Int coords, int Health = 3)
+        {
+            base.Reincarnate(coords, Health);
+            if(!Projectile.IsDestroyed)
+                Projectile.Hit(1);
+        }
         public void Shoot()
         {
             if (Projectile.IsDestroyed)

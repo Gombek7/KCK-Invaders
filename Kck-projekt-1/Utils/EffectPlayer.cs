@@ -32,6 +32,8 @@ namespace Kck_projekt_1.Utils
 
         List<Effect> effects;
 
+        public int Count { get => effects.Count; }
+
         public EffectPlayer()
         {
             effects = new List<Effect>();
@@ -47,6 +49,11 @@ namespace Kck_projekt_1.Utils
             foreach (Effect effect in effects)
                 effect.NextFrame();
             effects.RemoveAll(effect => effect.finished);
+        }
+
+        public void Clear()
+        {
+            effects.Clear();
         }
     }
 }

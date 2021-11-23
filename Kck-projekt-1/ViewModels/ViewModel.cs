@@ -35,6 +35,7 @@ namespace Kck_projekt_1.ViewModels
                 }
             }
         }
+
         private int lifes = 0;
         public int Lifes {
             get => lifes;
@@ -47,6 +48,16 @@ namespace Kck_projekt_1.ViewModels
                 }
             }
         }
+
+        public bool GameOver
+        {
+            get => Lifes <= 0;
+        }
+        public bool GameWon
+        {
+            get; private set;
+        }
+
         private GameObjectInfo playerInfo;
         public GameObjectInfo PlayerInfo
         {
@@ -60,6 +71,7 @@ namespace Kck_projekt_1.ViewModels
                 }
             }
         }
+
         public ObservableCollection<GameObjectInfo> GameObjectInfos { get; private set; }
 
         private Player player;
@@ -71,6 +83,8 @@ namespace Kck_projekt_1.ViewModels
         public ICommand ShootCommand { get; }
         public ICommand NextFrameCommand { get; }
         public ICommand ManualRefreshDataCommand { get; }
+        public ICommand RestartCommand { get;  }
+        public ICommand NextRoundCommand { get;  }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChange(string propertyName)
@@ -88,11 +102,15 @@ namespace Kck_projekt_1.ViewModels
             ShootCommand = new RelayCommand(Shoot);
             NextFrameCommand = new RelayCommand(NextFrame);
             ManualRefreshDataCommand = new RelayCommand(ManualRefreshData);
+            RestartCommand = new RelayCommand(Restart);
+            NextRoundCommand = new RelayCommand(NextRound);
 
             //game init
             GameObjectInfos = new ObservableCollection<GameObjectInfo>();
             player = new Player(new Vector2Int(GameConfig.Width / 2, GameConfig.Height - 2), 3);
             Lifes = 3;
+            GameWon = false;
+
             int enemiesLineCount = (GameConfig.Width - 10) / 7;
             enemies = new List<Enemy>();
             for (int i = 0; i < enemiesLineCount; i++)
@@ -134,6 +152,8 @@ namespace Kck_projekt_1.ViewModels
             for (int i=5; i<=(GameConfig.Width-15); i+=17 )
                 initBaricade(i, GameConfig.Height - 10);
         }
+
+
         void initBaricade(int x, int y)
         {
             for (int i = 3; i <= 7; i += 2)
@@ -187,12 +207,70 @@ namespace Kck_projekt_1.ViewModels
         }
         void NextFrame()
         {
+            if (GameOver || GameWon)
+                return;
             player.NextFrame();
             foreach (Enemy enemy in enemies)
                 enemy.CheckBorderCollision();
+            bool allEnemiesDestroyed = true;
             foreach(Enemy enemy in enemies)
+            {
                 enemy.NextFrame();
+                if (enemy.Position.y + enemy.Hitbox.RightDownCorner.y> (GameConfig.Height - 10))
+                {
+                    player.Hit(player.CurrentHealth);
+                    break;
+                }
+                if (!enemy.IsDestroyed)
+                    allEnemiesDestroyed = false;
+            }
             Enemy.borderCollision = false;
+
+            if (allEnemiesDestroyed)
+                GameWon = true;
+        }
+        private void ResetEnemies()
+        {
+            int enemiesLineCount = (GameConfig.Width - 10) / 7;
+            int index = 0;
+            for (int i = 0; i < enemiesLineCount; i++)
+            {
+                enemies[index++].Reincarnate(new Vector2Int(2 + i * 7, 2));
+            }
+            for (int i = 0; i < enemiesLineCount; i++)
+            {
+                enemies[index++].Reincarnate(new Vector2Int(3 + i * 7, 6));
+                enemies[index++].Reincarnate(new Vector2Int(3 + i * 7, 10));
+            }
+            for (int i = 0; i < enemiesLineCount; i++)
+            {
+                enemies[index++].Reincarnate(new Vector2Int(2 + i * 7, 14));
+                enemies[index++].Reincarnate(new Vector2Int(2 + i * 7, 18));
+            }
+        }
+        private void ResetObstacles()
+        {
+            foreach (Obstacle obstacle in obstacles)
+                obstacle.Reincarnate(obstacle.Position);
+        }
+        private void Restart()
+        {
+            player.Reincarnate(new Vector2Int(GameConfig.Width / 2, GameConfig.Height - 2), 3);
+            Lifes = 3;
+            Score = 0;
+            GameWon = false;
+
+            ResetEnemies();
+            ResetObstacles();
+        }
+        private void NextRound()
+        {
+            Lifes += 3;
+            player.Reincarnate(new Vector2Int(GameConfig.Width / 2, GameConfig.Height - 2), Lifes);
+            GameWon = false;
+
+            ResetEnemies();
+            ResetObstacles();
         }
     }
 }
