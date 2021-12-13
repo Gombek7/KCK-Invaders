@@ -24,7 +24,7 @@ namespace Kck_projekt_2.Views
         public MainWindow()
         {
             InitializeComponent();
-            //this.DataContext = new ViewModel();
+            this.DataContext = ViewModel.Instance;
         }
         
     }

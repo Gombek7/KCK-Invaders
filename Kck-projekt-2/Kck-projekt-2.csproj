@@ -10,20 +10,24 @@
   <ItemGroup>
     <Compile Include="..\Kck-projekt-1\Models\Enemy.cs" Link="Models\Enemy.cs" />
     <Compile Include="..\Kck-projekt-1\Models\EnemyProjectile.cs" Link="Models\EnemyProjectile.cs" />
+    <Compile Include="..\Kck-projekt-1\Models\EnemyTierI.cs" Link="Models\EnemyTierI.cs" />
+    <Compile Include="..\Kck-projekt-1\Models\EnemyTierII.cs" Link="Models\EnemyTierII.cs" />
+    <Compile Include="..\Kck-projekt-1\Models\EnemyTierIII.cs" Link="Models\EnemyTierIII.cs" />
     <Compile Include="..\Kck-projekt-1\Models\GameConfig.cs" Link="Models\GameConfig.cs" />
     <Compile Include="..\Kck-projekt-1\Models\GameObject.cs" Link="Models\GameObject.cs" />
     <Compile Include="..\Kck-projekt-1\Models\Hitbox.cs" Link="Models\Hitbox.cs" />
+    <Compile Include="..\Kck-projekt-1\Models\Obstacle.cs" Link="Models\Obstacle.cs" />
     <Compile Include="..\Kck-projekt-1\Models\Player.cs" Link="Models\Player.cs" />
     <Compile Include="..\Kck-projekt-1\Models\PlayerProjectile.cs" Link="Models\PlayerProjectile.cs" />
     <Compile Include="..\Kck-projekt-1\Models\Projectile.cs" Link="Models\Projectile.cs" />
     <Compile Include="..\Kck-projekt-1\Models\Vector2Int.cs" Link="Models\Vector2Int.cs" />
-    <Compile Include="..\Kck-projekt-1\Models\WeakEnemy.cs" Link="Models\WeakEnemy.cs" />
     <Compile Include="..\Kck-projekt-1\Utils\GameObjectInfo.cs" Link="Utils\GameObjectInfo.cs" />
     <Compile Include="..\Kck-projekt-1\Utils\RelayCommand.cs" Link="Utils\RelayCommand.cs" />
     <Compile Include="..\Kck-projekt-1\ViewModels\ViewModel.cs" Link="ViewModels\ViewModel.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Models\" />
     <Folder Include="Utils\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>
