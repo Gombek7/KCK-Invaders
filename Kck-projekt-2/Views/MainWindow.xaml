@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Kck_projekt_2.Views"
         xmlns:ViewModels="clr-namespace:Kck_projekt_1.ViewModels"
-        xmlns:Converters="clr-namespace:Kck_projekt_2.Converters"
+        xmlns:Converters="clr-namespace:Kck_projekt_2.Converters" d:DataContext="{d:DesignInstance Type=ViewModels:ViewModel}"
         mc:Ignorable="d"
         Title="MainWindow" Height="415" Width="696">
-    
+
     <!--Window.DataContext>
         <ViewModels:ViewModel/>
     </Window.DataContext-->
@@ -38,21 +38,30 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemContainerStyle>
                 <Style TargetType="FrameworkElement">
-                    <Setter Property="Canvas.Left" Value="{Binding Position, Converter={StaticResource xPositionConverter}}"/>
-                    <Setter Property="Canvas.Top" Value="{Binding Position, Converter={StaticResource yPositionConverter}}"/>
+                    <Setter Property="Canvas.Left" Value="{Binding . , Converter={StaticResource xPositionConverter}}"/>
+                    <Setter Property="Canvas.Top" Value="{Binding . , Converter={StaticResource yPositionConverter}}"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsDestroyed}" Value="True">
+                            <Setter Property="Visibility" Value="Hidden" />
+                        </DataTrigger>
+                    </Style.Triggers>
                 </Style>
             </ItemsControl.ItemContainerStyle>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Label Content="{Binding Position}" Background="Red"/>
+                    <Image Source="/Views/EnemyI.png"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-            <Label x:Name="ScoreLabel" Content="Punkty: " HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="1" Grid.Row="0"/>
-        <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Score}" HorizontalAlignment="Right"/>
+        <Label x:Name="ScoreLabel" Content="Score " HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="1" Grid.Row="0" FontFamily="Consolas" Foreground="#FFCBC600"/>
+        <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Score}" HorizontalAlignment="Center" Margin="0,25,0,199" Width="196" TextAlignment="Center" Foreground="#FFDDD802" FontSize="24" FontFamily="Consolas"/>
         <Button Command="{Binding NextFrameCommand}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,5,5">Następna klatka</Button>
         <Button Command="{Binding MoveLeftCommand}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5,5,5,5">W lewo</Button>
         <Button Command="{Binding MoveRightCommand}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5,5,5,5">W prawo</Button>
+        <Label x:Name="LifesLabel" Content="Lifes" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="1" Grid.Row="0" FontFamily="Consolas" Foreground="#FFCF1717" Margin="0,58,0,0" Width="50" Background="White"/>
+        <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Lifes}" HorizontalAlignment="Center" Margin="0,82,0,142" Width="196" TextAlignment="Center" Foreground="#FFCF1717" FontSize="24" FontFamily="Consolas"/>
+        <Label x:Name="HighScoreLabel" Content="High Score" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" FontFamily="Consolas" Foreground="#FF1757CF" Width="74" Background="White"/>
+        <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding HighScore}" HorizontalAlignment="Center" Margin="0,138,0,86" Width="196" TextAlignment="Center" Foreground="#FF1757D1" FontSize="24" FontFamily="Consolas"/>
     </Grid>
 </Window>

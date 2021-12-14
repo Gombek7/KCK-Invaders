@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Views\EnemyI.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Include="..\Kck-projekt-1\Models\Enemy.cs" Link="Models\Enemy.cs" />
     <Compile Include="..\Kck-projekt-1\Models\EnemyProjectile.cs" Link="Models\EnemyProjectile.cs" />
     <Compile Include="..\Kck-projekt-1\Models\EnemyTierI.cs" Link="Models\EnemyTierI.cs" />
@@ -28,8 +32,13 @@
 
   <ItemGroup>
     <Folder Include="Models\" />
+    <Folder Include="Images\" />
     <Folder Include="Utils\" />
     <Folder Include="ViewModels\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Views\EnemyI.png" />
   </ItemGroup>
 
 </Project>

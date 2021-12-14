@@ -1,4 +1,5 @@
 ﻿using Kck_projekt_1.Models;
+using Kck_projekt_1.Utils;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -12,12 +13,14 @@ namespace Kck_projekt_2.Converters
         private static readonly int multipler = 10;
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return ((Vector2Int)value).y * multipler;
+            GameObjectInfo gameObjectInfo = (GameObjectInfo)value;
+            return (gameObjectInfo.Position + gameObjectInfo.Hitbox.UpperLeftCorner).y * multipler;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return new Vector2Int(0, (int)value)/ multipler;
+            return null;
+            //return new Vector2Int(0, (int)value)/ multipler;
         }
     }
 }
