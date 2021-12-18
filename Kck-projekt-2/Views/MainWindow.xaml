@@ -5,9 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Kck_projekt_2.Views"
         xmlns:ViewModels="clr-namespace:Kck_projekt_1.ViewModels"
+        xmlns:Models="clr-namespace:Kck_projekt_1.Models"
         xmlns:Converters="clr-namespace:Kck_projekt_2.Converters" d:DataContext="{d:DesignInstance Type=ViewModels:ViewModel}"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="MainWindow" Height="415" Width="696">
+        Title="MainWindow" Height="877" Width="1100">
 
     <!--Window.DataContext>
         <ViewModels:ViewModel/>
@@ -15,13 +17,16 @@
     <Window.Resources>
         <Converters:XPositionConverter x:Key="xPositionConverter"/>
         <Converters:YPositionConverter x:Key="yPositionConverter"/>
+        <Converters:ObjectTypeToStringConverter x:Key="objectTypeToStringConverter"/>
+        <Converters:WidthConverter x:Key="widthConverter"/>
+        <Converters:HeightConverter x:Key="heightConverter"/>
     </Window.Resources>
     <Window.InputBindings >
         <KeyBinding Key="Right" Command="{Binding MoveRightCommand}"/>
         <KeyBinding Key="Left" Command="{Binding MoveLeftCommand}" />
         <KeyBinding Key="Space" Command="{Binding ShootCommand}" />
     </Window.InputBindings>
-    <Grid>
+    <Grid HorizontalAlignment="Left">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="*" />
@@ -33,7 +38,11 @@
         <ItemsControl ItemsSource="{Binding GameObjectInfos}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <Canvas Grid.Column="0" Grid.Row="0" Background="#FF8B8B8B" Width="500" Height="250" />
+                    <Canvas Grid.Column="0" Grid.Row="0" Width="{Binding Source={x:Static Models:GameConfig.Width}, Converter={StaticResource widthConverter}}" Height="{Binding Source={x:Static Models:GameConfig.Height}, Converter={StaticResource heightConverter}}">
+                        <Canvas.Background>
+                            <ImageBrush ImageSource="Images/background.png" Stretch="None" ViewportUnits="Absolute" Viewport="0,0,256,256" TileMode="FlipY"></ImageBrush>
+                        </Canvas.Background>
+                    </Canvas>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemContainerStyle>
@@ -49,19 +58,213 @@
             </ItemsControl.ItemContainerStyle>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Image Source="/Views/EnemyI.png"/>
+                    <Image x:Name="image" Stretch="Fill"/>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding ., Converter={StaticResource objectTypeToStringConverter}}" Value="Player">
+                            <Setter TargetName="image" Property="Source" Value="Images/player.png"/>
+                            <Setter TargetName="image" Property="Width">
+                                <Setter.Value>
+                                    <Binding>
+                                        <Binding.Source>
+                                            <sys:Int32>4</sys:Int32>
+                                        </Binding.Source>
+                                        <Binding.Converter>
+                                            <StaticResource ResourceKey="widthConverter"/>
+                                        </Binding.Converter>
+                                    </Binding>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter TargetName="image" Property="Height">
+                                <Setter.Value>
+                                    <Binding>
+                                        <Binding.Source>
+                                            <sys:Int32>2</sys:Int32>
+                                        </Binding.Source>
+                                        <Binding.Converter>
+                                            <StaticResource ResourceKey="heightConverter"/>
+                                        </Binding.Converter>
+                                    </Binding>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ., Converter={StaticResource objectTypeToStringConverter}}" Value="EnemyTierI">
+                            <Setter TargetName="image" Property="Source" Value="Images/EnemyI.png"></Setter>
+                            <Setter TargetName="image" Property="Width">
+                                <Setter.Value>
+                                    <Binding>
+                                        <Binding.Source>
+                                            <sys:Int32>4</sys:Int32>
+                                        </Binding.Source>
+                                        <Binding.Converter>
+                                            <StaticResource ResourceKey="widthConverter"/>
+                                        </Binding.Converter>
+                                    </Binding>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter TargetName="image" Property="Height">
+                                <Setter.Value>
+                                    <Binding>
+                                        <Binding.Source>
+                                            <sys:Int32>3</sys:Int32>
+                                        </Binding.Source>
+                                        <Binding.Converter>
+                                            <StaticResource ResourceKey="heightConverter"/>
+                                        </Binding.Converter>
+                                    </Binding>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ., Converter={StaticResource objectTypeToStringConverter}}" Value="EnemyTierII">
+                            <Setter TargetName="image" Property="Source" Value="Images/EnemyII.png"></Setter>
+                            <Setter TargetName="image" Property="Width">
+                                <Setter.Value>
+                                    <Binding>
+                                        <Binding.Source>
+                                            <sys:Int32>5</sys:Int32>
+                                        </Binding.Source>
+                                        <Binding.Converter>
+                                            <StaticResource ResourceKey="widthConverter"/>
+                                        </Binding.Converter>
+                                    </Binding>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter TargetName="image" Property="Height">
+                                <Setter.Value>
+                                    <Binding>
+                                        <Binding.Source>
+                                            <sys:Int32>3</sys:Int32>
+                                        </Binding.Source>
+                                        <Binding.Converter>
+                                            <StaticResource ResourceKey="heightConverter"/>
+                                        </Binding.Converter>
+                                    </Binding>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ., Converter={StaticResource objectTypeToStringConverter}}" Value="EnemyTierIII">
+                            <Setter TargetName="image" Property="Source" Value="Images/EnemyIII.png"></Setter>
+                            <Setter TargetName="image" Property="Width">
+                                <Setter.Value>
+                                    <Binding>
+                                        <Binding.Source>
+                                            <sys:Int32>4</sys:Int32>
+                                        </Binding.Source>
+                                        <Binding.Converter>
+                                            <StaticResource ResourceKey="widthConverter"/>
+                                        </Binding.Converter>
+                                    </Binding>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter TargetName="image" Property="Height">
+                                <Setter.Value>
+                                    <Binding>
+                                        <Binding.Source>
+                                            <sys:Int32>3</sys:Int32>
+                                        </Binding.Source>
+                                        <Binding.Converter>
+                                            <StaticResource ResourceKey="heightConverter"/>
+                                        </Binding.Converter>
+                                    </Binding>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ., Converter={StaticResource objectTypeToStringConverter}}" Value="Obstacle">
+                            <Setter TargetName="image" Property="Source" Value="Images/obstacle.png"></Setter>
+                            <Setter TargetName="image" Property="Width">
+                                <Setter.Value>
+                                    <Binding>
+                                        <Binding.Source>
+                                            <sys:Int32>2</sys:Int32>
+                                        </Binding.Source>
+                                        <Binding.Converter>
+                                            <StaticResource ResourceKey="widthConverter"/>
+                                        </Binding.Converter>
+                                    </Binding>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter TargetName="image" Property="Height">
+                                <Setter.Value>
+                                    <Binding>
+                                        <Binding.Source>
+                                            <sys:Int32>1</sys:Int32>
+                                        </Binding.Source>
+                                        <Binding.Converter>
+                                            <StaticResource ResourceKey="heightConverter"/>
+                                        </Binding.Converter>
+                                    </Binding>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ., Converter={StaticResource objectTypeToStringConverter}}" Value="PlayerProjectile">
+                            <Setter TargetName="image" Property="Source" Value="Images/playerProjectile.png"></Setter>
+                            <Setter TargetName="image" Property="Width">
+                                <Setter.Value>
+                                    <Binding>
+                                        <Binding.Source>
+                                            <sys:Int32>1</sys:Int32>
+                                        </Binding.Source>
+                                        <Binding.Converter>
+                                            <StaticResource ResourceKey="widthConverter"/>
+                                        </Binding.Converter>
+                                    </Binding>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter TargetName="image" Property="Height">
+                                <Setter.Value>
+                                    <Binding>
+                                        <Binding.Source>
+                                            <sys:Int32>3</sys:Int32>
+                                        </Binding.Source>
+                                        <Binding.Converter>
+                                            <StaticResource ResourceKey="heightConverter"/>
+                                        </Binding.Converter>
+                                    </Binding>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ., Converter={StaticResource objectTypeToStringConverter}}" Value="EnemyProjectile">
+                            <Setter TargetName="image" Property="Source" Value="Images/enemyProjectile.png"></Setter>
+                            <Setter TargetName="image" Property="Width">
+                                <Setter.Value>
+                                    <Binding>
+                                        <Binding.Source>
+                                            <sys:Int32>1</sys:Int32>
+                                        </Binding.Source>
+                                        <Binding.Converter>
+                                            <StaticResource ResourceKey="widthConverter"/>
+                                        </Binding.Converter>
+                                    </Binding>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter TargetName="image" Property="Height">
+                                <Setter.Value>
+                                    <Binding>
+                                        <Binding.Source>
+                                            <sys:Int32>2</sys:Int32>
+                                        </Binding.Source>
+                                        <Binding.Converter>
+                                            <StaticResource ResourceKey="heightConverter"/>
+                                        </Binding.Converter>
+                                    </Binding>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <Label x:Name="ScoreLabel" Content="Score " HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="1" Grid.Row="0" FontFamily="Consolas" Foreground="#FFCBC600"/>
-        <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Score}" HorizontalAlignment="Center" Margin="0,25,0,199" Width="196" TextAlignment="Center" Foreground="#FFDDD802" FontSize="24" FontFamily="Consolas"/>
-        <Button Command="{Binding NextFrameCommand}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,5,5">Następna klatka</Button>
-        <Button Command="{Binding MoveLeftCommand}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5,5,5,5">W lewo</Button>
-        <Button Command="{Binding MoveRightCommand}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5,5,5,5">W prawo</Button>
-        <Label x:Name="LifesLabel" Content="Lifes" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="1" Grid.Row="0" FontFamily="Consolas" Foreground="#FFCF1717" Margin="0,58,0,0" Width="50" Background="White"/>
-        <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Lifes}" HorizontalAlignment="Center" Margin="0,82,0,142" Width="196" TextAlignment="Center" Foreground="#FFCF1717" FontSize="24" FontFamily="Consolas"/>
-        <Label x:Name="HighScoreLabel" Content="High Score" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" FontFamily="Consolas" Foreground="#FF1757CF" Width="74" Background="White"/>
-        <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding HighScore}" HorizontalAlignment="Center" Margin="0,138,0,86" Width="196" TextAlignment="Center" Foreground="#FF1757D1" FontSize="24" FontFamily="Consolas"/>
+        <StackPanel Grid.Column="1" Grid.Row="0" >
+            <Label x:Name="ScoreLabel" Content="Score " HorizontalAlignment="Center" VerticalAlignment="Top"  FontFamily="Consolas" Foreground="#FFCBC600"/>
+            <TextBlock Text="{Binding Score}" HorizontalAlignment="Center"  Width="196" TextAlignment="Center" Foreground="#FFDDD802" FontSize="24" FontFamily="Consolas" VerticalAlignment="Top"/>
+            <Label x:Name="LifesLabel" Content="Lifes" HorizontalAlignment="Center" VerticalAlignment="Top" FontFamily="Consolas" Foreground="#FFCF1717" Width="50" Background="White"/>
+            <TextBlock Text="{Binding Lifes}" HorizontalAlignment="Center" Width="196" TextAlignment="Center" Foreground="#FFCF1717" FontSize="24" FontFamily="Consolas" VerticalAlignment="Top"/>
+            <Label x:Name="HighScoreLabel" Content="High Score" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" FontFamily="Consolas" Foreground="#FF1757CF" Width="74" Background="White"/>
+            <TextBlock Text="{Binding HighScore}" HorizontalAlignment="Center"  Width="196" TextAlignment="Center" Foreground="#FF1757D1" FontSize="24" FontFamily="Consolas" VerticalAlignment="Top"/>
+        </StackPanel>
+        <ToggleButton x:Name="pauseButton" Command="{Binding NextFrameCommand}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Checked="pauseButton_Checked" Unchecked="pauseButton_Unchecked">Pauza</ToggleButton>
+        <Button Command="{Binding ShootCommand}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5,0,0,5">Strzał</Button>
+        <Button Command="{Binding MoveLeftCommand}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5,0,0,5">W lewo</Button>
+        <Button Command="{Binding MoveRightCommand}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,5,5">W prawo</Button>
     </Grid>
 </Window>

@@ -8,7 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Views\EnemyI.png" />
+    <None Remove="Views\Images\background.png" />
+    <None Remove="Views\Images\enemyI.png" />
+    <None Remove="Views\Images\enemyII.png" />
+    <None Remove="Views\Images\enemyIII.png" />
+    <None Remove="Views\Images\enemyProjectile.png" />
+    <None Remove="Views\Images\obstacle.png" />
+    <None Remove="Views\Images\player.png" />
+    <None Remove="Views\Images\playerProjectile.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,17 +35,40 @@
     <Compile Include="..\Kck-projekt-1\Utils\GameObjectInfo.cs" Link="Utils\GameObjectInfo.cs" />
     <Compile Include="..\Kck-projekt-1\Utils\RelayCommand.cs" Link="Utils\RelayCommand.cs" />
     <Compile Include="..\Kck-projekt-1\ViewModels\ViewModel.cs" Link="ViewModels\ViewModel.cs" />
+    <Resource Include="Views\Images\enemyI.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Views\Images\enemyII.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
     <Folder Include="Images\" />
+    <Folder Include="Models\" />
     <Folder Include="Utils\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Views\EnemyI.png" />
+    <Resource Include="Views\Images\background.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Views\Images\enemyIII.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Views\Images\obstacle.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Views\Images\playerProjectile.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Views\Images\enemyProjectile.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Views\Images\player.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>
