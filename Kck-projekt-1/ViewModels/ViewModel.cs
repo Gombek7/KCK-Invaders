@@ -255,7 +255,10 @@ namespace Kck_projekt_1.ViewModels
             Enemy.borderCollision = false;
 
             if (allEnemiesDestroyed)
+            {
                 GameWon = true;
+                OnPropertyChange(nameof(GameWon));
+            }
         }
         private void ResetEnemies()
         {

@@ -59,6 +59,24 @@ namespace Kck_projekt_2.Views
         {
             if (e.Key == Key.P)
                 pauseButton.IsChecked = !pauseButton.IsChecked;
+            else if (e.Key == Key.R)
+            {
+                restartButton.Command.Execute(null);
+            }
+            else if (e.Key == Key.Space)
+            {
+                if (viewModel.GameWon)
+                    viewModel.NextRoundCommand.Execute(null);
+                shootButton.Command.Execute(null);
+            }
+            else if (e.Key == Key.Left)
+            {
+                leftButton.Command.Execute(null);
+            }
+            else if (e.Key == Key.Right)
+            {
+                rightButton.Command.Execute(null);
+            }
         }
     }
 }

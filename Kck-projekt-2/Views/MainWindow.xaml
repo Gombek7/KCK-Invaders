@@ -21,12 +21,12 @@
         <Converters:WidthConverter x:Key="widthConverter"/>
         <Converters:HeightConverter x:Key="heightConverter"/>
     </Window.Resources>
-    <Window.InputBindings >
+    <!--Window.InputBindings >
         <KeyBinding Key="Right" Command="{Binding MoveRightCommand}"/>
         <KeyBinding Key="Left" Command="{Binding MoveLeftCommand}" />
         <KeyBinding Key="Space" Command="{Binding ShootCommand}" />
         <KeyBinding Key="R" Command="{Binding RestartCommand}" />
-    </Window.InputBindings>
+    </Window.InputBindings-->
     <Grid HorizontalAlignment="Left">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto" />
@@ -314,10 +314,10 @@
         </StackPanel>
         <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" >
             <ToggleButton x:Name="pauseButton" Command="{Binding NextFrameCommand}" Checked="pauseButton_Checked" Unchecked="pauseButton_Unchecked" Margin="5,0,5,0" AutomationProperties.AccessKey="P">Pauza [P]</ToggleButton>
-            <Button Command="{Binding RestartCommand}" VerticalAlignment="Bottom" Margin="5,0,5,0">Restart [R]</Button>
-            <Button Command="{Binding ShootCommand}" VerticalAlignment="Bottom" Margin="5,0,5,0">Strzał [spacja]</Button>
-            <Button Command="{Binding MoveLeftCommand}" VerticalAlignment="Bottom" Margin="5,0,5,0">W lewo [←]</Button>
-            <Button Command="{Binding MoveRightCommand}" VerticalAlignment="Bottom">W prawo [→]</Button>
+            <Button x:Name="restartButton" Command="{Binding RestartCommand}" VerticalAlignment="Bottom" Margin="5,0,5,0">Restart [R]</Button>
+            <Button x:Name="shootButton" Command="{Binding ShootCommand}" VerticalAlignment="Bottom" Margin="5,0,5,0">Strzał [spacja]</Button>
+            <Button x:Name="leftButton" Command="{Binding MoveLeftCommand}" VerticalAlignment="Bottom" Margin="5,0,5,0">W lewo [←]</Button>
+            <Button x:Name="rightButton" Command="{Binding MoveRightCommand}" VerticalAlignment="Bottom">W prawo [→]</Button>
         </StackPanel>
     </Grid>
 </Window>

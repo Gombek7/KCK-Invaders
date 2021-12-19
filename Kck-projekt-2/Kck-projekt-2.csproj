@@ -21,6 +21,7 @@
     <None Remove="Views\Images\obstacle4.png" />
     <None Remove="Views\Images\player.png" />
     <None Remove="Views\Images\playerProjectile.png" />
+    <None Remove="Views\Images\youwin.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -76,6 +77,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Views\Images\player.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Views\Images\youwin.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
