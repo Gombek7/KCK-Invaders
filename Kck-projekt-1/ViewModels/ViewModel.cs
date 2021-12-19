@@ -60,6 +60,8 @@ namespace Kck_projekt_1.ViewModels
                 {
                     lifes = value;
                     OnPropertyChange(nameof(Lifes));
+                    if (lifes <= 0)
+                        OnPropertyChange(nameof(GameOver));
                 }
             }
         }
@@ -68,9 +70,18 @@ namespace Kck_projekt_1.ViewModels
         {
             get => Lifes <= 0;
         }
+        private bool gameWon = false;
         public bool GameWon
         {
-            get; private set;
+            get => gameWon;
+            private set
+            {
+                if (gameWon != value)
+                {
+                    gameWon = value;
+                    OnPropertyChange(nameof(GameWon));
+                }
+            }
         }
 
         private GameObjectInfo playerInfo;
@@ -276,6 +287,7 @@ namespace Kck_projekt_1.ViewModels
         {
             player.Reincarnate(new Vector2Int(GameConfig.Width / 2, GameConfig.Height - 2), 3);
             Lifes = 3;
+            OnPropertyChange(nameof(GameOver));
             Score = 0;
             GameWon = false;
 

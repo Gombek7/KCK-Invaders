@@ -13,7 +13,12 @@
     <None Remove="Views\Images\enemyII.png" />
     <None Remove="Views\Images\enemyIII.png" />
     <None Remove="Views\Images\enemyProjectile.png" />
+    <None Remove="Views\Images\gameover.png" />
     <None Remove="Views\Images\obstacle.png" />
+    <None Remove="Views\Images\obstacle1.png" />
+    <None Remove="Views\Images\obstacle2.png" />
+    <None Remove="Views\Images\obstacle3.png" />
+    <None Remove="Views\Images\obstacle4.png" />
     <None Remove="Views\Images\player.png" />
     <None Remove="Views\Images\playerProjectile.png" />
   </ItemGroup>
@@ -57,9 +62,13 @@
     <Resource Include="Views\Images\enemyIII.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Views\Images\obstacle.png">
+    <Resource Include="Views\Images\gameover.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Views\Images\obstacle1.png" />
+    <Resource Include="Views\Images\obstacle2.png" />
+    <Resource Include="Views\Images\obstacle3.png" />
+    <Resource Include="Views\Images\obstacle4.png" />
     <Resource Include="Views\Images\playerProjectile.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
