@@ -304,8 +304,17 @@
                 </Style>
             </Image.Style>
         </Image>
-        <Window Background="Black" WindowStyle="ThreeDBorderWindow" BorderBrush="#FF0B7C12" BorderThickness="3,3,3,3" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Image Source="Images\kckInvaders.png"></Image>
+        <Window WindowStyle="None" HorizontalAlignment="Center" VerticalAlignment="Center" Background="Black" BorderThickness="3,3,3,3" BorderBrush="#FF0A5111" Padding="5,5,5,5">
+            <StackPanel>
+                <Image Source="Images\kckInvaders.png"></Image>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Image Source="Images\enemyI.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="39" Height="60"></Image>
+                    <TextBlock Foreground="White" VerticalAlignment="Center" FontSize="30" FontFamily="Consolas" FontWeight="Bold" Margin="20,0,20,0"> x 10 pkt</TextBlock>
+                </StackPanel>
+                <TextBlock Foreground="#FF019815" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Margin="0,10,0,19">Naciśnij dowolny klawisz, aby rozpocząć.</TextBlock>
+                <Button x:Name="startButton" Command="{Binding MoveRightCommand}" VerticalAlignment="Bottom" Margin="10,0,10,0" Background="#00DDDDDD" Foreground="#FF22C220" BorderBrush="#FF1DAE2C" FontFamily="Consolas" FontSize="22" BorderThickness="2,2,2,2" Padding="5,3,5,3" Focusable="False" HorizontalAlignment="Center">Start</Button>
+                
+            </StackPanel>
         </Window>
         <StackPanel Grid.Column="1" Grid.Row="0" >
             <Label x:Name="ScoreLabel" Content="Score " HorizontalAlignment="Center" VerticalAlignment="Top"  FontFamily="Segoe UI Black" Foreground="#FFCBC600" FontSize="24" FontWeight="Bold" FontStyle="Normal"/>
