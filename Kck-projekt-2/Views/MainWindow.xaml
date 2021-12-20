@@ -9,7 +9,7 @@
         xmlns:Converters="clr-namespace:Kck_projekt_2.Converters" d:DataContext="{d:DesignInstance Type=ViewModels:ViewModel}"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="MainWindow" Height="882" Width="1216" KeyDown="Window_KeyDown">
+        Title="KCK Invaders by Jarosław Dakowicz" Height="882" Width="1216" KeyDown="Window_KeyDown" WindowStyle="SingleBorderWindow" Background="Black">
 
     <!--Window.DataContext>
         <ViewModels:ViewModel/>
@@ -36,7 +36,7 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <ItemsControl ItemsSource="{Binding GameObjectInfos}">
+        <ItemsControl ItemsSource="{Binding GameObjectInfos}" BorderBrush="#FF3B009D" BorderThickness="3,3,3,3">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Canvas Grid.Column="0" Grid.Row="0" Width="{Binding Source={x:Static Models:GameConfig.Width}, Converter={StaticResource widthConverter}}" Height="{Binding Source={x:Static Models:GameConfig.Height}, Converter={StaticResource heightConverter}}">
@@ -304,20 +304,23 @@
                 </Style>
             </Image.Style>
         </Image>
+        <Window Background="Black" WindowStyle="ThreeDBorderWindow" BorderBrush="#FF0B7C12" BorderThickness="3,3,3,3" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Image Source="Images\kckInvaders.png"></Image>
+        </Window>
         <StackPanel Grid.Column="1" Grid.Row="0" >
-            <Label x:Name="ScoreLabel" Content="Score " HorizontalAlignment="Center" VerticalAlignment="Top"  FontFamily="Consolas" Foreground="#FFCBC600"/>
-            <TextBlock Text="{Binding Score}" HorizontalAlignment="Center"  Width="196" TextAlignment="Center" Foreground="#FFDDD802" FontSize="24" FontFamily="Consolas" VerticalAlignment="Top"/>
-            <Label x:Name="LifesLabel" Content="Lifes" HorizontalAlignment="Center" VerticalAlignment="Top" FontFamily="Consolas" Foreground="#FFCF1717" Width="50" Background="White"/>
-            <TextBlock Text="{Binding Lifes}" HorizontalAlignment="Center" Width="196" TextAlignment="Center" Foreground="#FFCF1717" FontSize="24" FontFamily="Consolas" VerticalAlignment="Top"/>
-            <Label x:Name="HighScoreLabel" Content="High Score" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" FontFamily="Consolas" Foreground="#FF1757CF" Width="74" Background="White"/>
-            <TextBlock Text="{Binding HighScore}" HorizontalAlignment="Center"  Width="196" TextAlignment="Center" Foreground="#FF1757D1" FontSize="24" FontFamily="Consolas" VerticalAlignment="Top"/>
+            <Label x:Name="ScoreLabel" Content="Score " HorizontalAlignment="Center" VerticalAlignment="Top"  FontFamily="Segoe UI Black" Foreground="#FFCBC600" FontSize="24" FontWeight="Bold" FontStyle="Normal"/>
+            <TextBlock Text="{Binding Score}" HorizontalAlignment="Center"  Width="196" TextAlignment="Center" Foreground="#FFDDD802" FontSize="24" FontFamily="Segoe UI Black" VerticalAlignment="Top"/>
+            <Label x:Name="LifesLabel" Content="Lifes" HorizontalAlignment="Center" FontFamily="Segoe UI Black" Foreground="#FFCF1717" Width="71" Background="#00000000" FontSize="24" FontWeight="Bold"/>
+            <TextBlock Text="{Binding Lifes}" HorizontalAlignment="Center" Width="196" TextAlignment="Center" Foreground="#FFCF1717" FontSize="24" FontFamily="Segoe UI Black" VerticalAlignment="Top"/>
+            <Label x:Name="HighScoreLabel" Content="High Score" HorizontalAlignment="Center" Grid.Column="1" FontFamily="Segoe UI Black" Foreground="#FF1757CF" Width="144" Background="#00000000" FontSize="24" FontWeight="Bold"/>
+            <TextBlock Text="{Binding HighScore}" HorizontalAlignment="Center"  Width="196" TextAlignment="Center" Foreground="#FF1757D1" FontSize="24" FontFamily="Segoe UI Black" VerticalAlignment="Top"/>
         </StackPanel>
         <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" >
-            <ToggleButton x:Name="pauseButton" Command="{Binding NextFrameCommand}" Checked="pauseButton_Checked" Unchecked="pauseButton_Unchecked" Margin="5,0,5,0" AutomationProperties.AccessKey="P">Pauza [P]</ToggleButton>
-            <Button x:Name="restartButton" Command="{Binding RestartCommand}" VerticalAlignment="Bottom" Margin="5,0,5,0">Restart [R]</Button>
-            <Button x:Name="shootButton" Command="{Binding ShootCommand}" VerticalAlignment="Bottom" Margin="5,0,5,0">Strzał [spacja]</Button>
-            <Button x:Name="leftButton" Command="{Binding MoveLeftCommand}" VerticalAlignment="Bottom" Margin="5,0,5,0">W lewo [←]</Button>
-            <Button x:Name="rightButton" Command="{Binding MoveRightCommand}" VerticalAlignment="Bottom">W prawo [→]</Button>
+            <ToggleButton x:Name="pauseButton" Command="{Binding NextFrameCommand}" Checked="pauseButton_Checked" Unchecked="pauseButton_Unchecked" Margin="10,0,10,0" Background="#00DDDDDD" Foreground="#FF002BFF" BorderBrush="#FF002BFF" FontFamily="Consolas" FontSize="22" BorderThickness="2,2,2,2" Padding="5,3,5,3" Grid.IsSharedSizeScope="True" Focusable="False">Pauza [P]</ToggleButton>
+            <Button x:Name="restartButton" Command="{Binding RestartCommand}" VerticalAlignment="Bottom" Margin="10,0,10,0" Background="#00DDDDDD" Foreground="#FF002BFF" BorderBrush="#FF002BFF" FontFamily="Consolas" FontSize="22" BorderThickness="2,2,2,2" Padding="5,3,5,3" Focusable="False">Restart [R]</Button>
+            <Button x:Name="shootButton" Command="{Binding ShootCommand}" VerticalAlignment="Bottom" Margin="10,0,10,0" Background="#00DDDDDD" Foreground="#FF002BFF" BorderBrush="#FF002BFF" FontFamily="Consolas" FontSize="22" BorderThickness="2,2,2,2" Padding="5,3,5,3" Focusable="False">Strzał [spacja]</Button>
+            <Button x:Name="leftButton" Command="{Binding MoveLeftCommand}" VerticalAlignment="Bottom" Margin="10,0,10,0" Background="#00DDDDDD" Foreground="#FF002BFF" BorderBrush="#FF002BFF" FontFamily="Consolas" FontSize="22" BorderThickness="2,2,2,2" Padding="5,3,5,3" Focusable="False">W lewo [←]</Button>
+            <Button x:Name="rightButton" Command="{Binding MoveRightCommand}" VerticalAlignment="Bottom" Margin="10,0,10,0" Background="#00DDDDDD" Foreground="#FF002BFF" BorderBrush="#FF002BFF" FontFamily="Consolas" FontSize="22" BorderThickness="2,2,2,2" Padding="5,3,5,3" Focusable="False">W prawo [→]</Button>
         </StackPanel>
     </Grid>
 </Window>

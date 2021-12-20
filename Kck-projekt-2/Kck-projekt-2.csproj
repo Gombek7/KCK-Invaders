@@ -14,6 +14,7 @@
     <None Remove="Views\Images\enemyIII.png" />
     <None Remove="Views\Images\enemyProjectile.png" />
     <None Remove="Views\Images\gameover.png" />
+    <None Remove="Views\Images\kckInvaders.png" />
     <None Remove="Views\Images\obstacle.png" />
     <None Remove="Views\Images\obstacle1.png" />
     <None Remove="Views\Images\obstacle2.png" />
@@ -41,6 +42,9 @@
     <Compile Include="..\Kck-projekt-1\Utils\GameObjectInfo.cs" Link="Utils\GameObjectInfo.cs" />
     <Compile Include="..\Kck-projekt-1\Utils\RelayCommand.cs" Link="Utils\RelayCommand.cs" />
     <Compile Include="..\Kck-projekt-1\ViewModels\ViewModel.cs" Link="ViewModels\ViewModel.cs" />
+    <Content Include="Views\Images\kckInvaders.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Views\Images\enemyI.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
