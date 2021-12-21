@@ -43,9 +43,9 @@
     <Compile Include="..\Kck-projekt-1\Utils\GameObjectInfo.cs" Link="Utils\GameObjectInfo.cs" />
     <Compile Include="..\Kck-projekt-1\Utils\RelayCommand.cs" Link="Utils\RelayCommand.cs" />
     <Compile Include="..\Kck-projekt-1\ViewModels\ViewModel.cs" Link="ViewModels\ViewModel.cs" />
-    <Content Include="Views\Images\kckInvaders.png">
+    <Resource Include="Views\Images\kckInvaders.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </Resource>
     <Resource Include="Views\explosion.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
