@@ -25,6 +25,8 @@ namespace Kck_projekt_2.Views
     public partial class MainWindow : Window
     {
         readonly DispatcherTimer timer;
+        private MediaPlayer themePlayer = new MediaPlayer();
+        private MediaPlayer shootPlayer = new MediaPlayer();
         ViewModel viewModel;
         public MainWindow()
         {
@@ -36,10 +38,23 @@ namespace Kck_projekt_2.Views
             timer = new DispatcherTimer(DispatcherPriority.Render);
             timer.Interval = TimeSpan.FromMilliseconds(1000/GameConfig.Fps);
             timer.Tick += timer_Tick;
-            timer.Start();
+            //timer.Start();
+
+            themePlayer.Open(new Uri(@"Sounds/spaceinvaders1.mpeg", UriKind.Relative));
+            themePlayer.Play();
+
+            shootPlayer.Open(new Uri(@"Sounds/shoot.wav", UriKind.Relative));
+            shootPlayer.MediaEnded += ShootPlayer_MediaEnded;
 
             viewModel.ManualRefreshDataCommand.Execute(null);
         }
+
+        private void ShootPlayer_MediaEnded(object sender, EventArgs e)
+        {
+            shootPlayer.Position = new TimeSpan(0);
+            shootPlayer.Stop();
+        }
+
         void timer_Tick(object sender, EventArgs e)
         {
             viewModel.NextFrameCommand.Execute(null);
@@ -47,16 +62,21 @@ namespace Kck_projekt_2.Views
 
         private void pauseButton_Checked(object sender, RoutedEventArgs e)
         {
-            timer.Stop();
+            timer?.Stop();
         }
 
         private void pauseButton_Unchecked(object sender, RoutedEventArgs e)
         {
-            timer.Start();
+            timer?.Start();
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
+            if (welcomeScreen.Visibility != Visibility.Hidden)
+            {
+                startButton_Click(null, null);
+            }
+
             if (e.Key == Key.P)
                 pauseButton.IsChecked = !pauseButton.IsChecked;
             else if (e.Key == Key.R)
@@ -67,7 +87,11 @@ namespace Kck_projekt_2.Views
             {
                 if (viewModel.GameWon)
                     viewModel.NextRoundCommand.Execute(null);
-                shootButton.Command.Execute(null);
+                else
+                {
+                    shootButton.Command.Execute(null);
+                    shootPlayer.Play();
+                }
             }
             else if (e.Key == Key.Left)
             {
@@ -77,6 +101,13 @@ namespace Kck_projekt_2.Views
             {
                 rightButton.Command.Execute(null);
             }
+        }
+
+        private void startButton_Click(object sender, RoutedEventArgs e)
+        {
+            pauseButton.IsChecked = false;
+            welcomeScreen.Visibility = Visibility.Hidden;
+            themePlayer.Stop();
         }
     }
 }
